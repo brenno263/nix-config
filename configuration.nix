@@ -95,6 +95,8 @@
   #  wget
     vim
     git
+    btop
+    wget
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

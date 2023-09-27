@@ -22,10 +22,23 @@
 	  ./hardware-configuration.nix
           ./modules/gnome.nix
           ./modules/spotify.nix
+          ./modules/discord.nix
+          ({pkgs, ...}: {
+            environment.systemPackages = with pkgs; [
+              godot
+              signal-desktop
+            ];
+          })
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
+          ({pkgs, ...}: {
+            nix.registry = {
+              nixpkgs.flake = nixpkgs;
+              nixos-hardware.flake = nixos-hardware;
+            };
+          })
         ];
       };
     };
