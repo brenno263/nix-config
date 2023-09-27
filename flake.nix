@@ -20,7 +20,8 @@
           nixos-hardware.nixosModules.system76
           ./configuration.nix
 	  ./hardware-configuration.nix
-          ./modules/spotify
+          ./modules/gnome.nix
+          ./modules/spotify.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
