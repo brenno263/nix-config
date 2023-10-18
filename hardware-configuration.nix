@@ -37,4 +37,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  # System76 Configuration
+  hardware.system76.enableAll = true;
+  services.system76-scheduler.enable = true;
 }

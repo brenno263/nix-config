@@ -1,5 +1,5 @@
 {pkgs, ...}: {
   config = {
-    environment.systemPackages = [ pkgs.webcord ];
+    environment.systemPackages = with pkgs; [ discord webcord ];
   };
 }

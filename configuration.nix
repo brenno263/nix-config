@@ -79,7 +79,7 @@
   users.users.b = {
     isNormalUser = true;
     description = "Brennan Seymour";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
     ];
