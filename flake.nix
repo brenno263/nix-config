@@ -52,6 +52,7 @@
 						./modules/gnome.nix
 						./modules/spotify.nix
 						./modules/discord.nix
+						./modules/wireshark.nix
 						({pkgs, ...}: {
 							environment.systemPackages = with pkgs; [
 								godot-libxcrypt
@@ -69,6 +70,11 @@
 								srb2
 								nix-index
 								toybox
+								vnstat
+								carla
+								nethogs
+								zoom-us
+								neovim
 							];
 
 							virtualisation.docker.enable = true;
