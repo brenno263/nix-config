@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, userConfiguration, ... }:
 {
 	# Home Manager needs a bit of information about you and the
 	# paths it should manage.
@@ -53,6 +53,10 @@
 		oh-my-zsh = {
 			enable = true;
 			theme = "refined";
+		};
+
+		shellAliases = {
+			nixswitch = ("sudo nixos-rebuild switch --flake ~/nixos#" + userConfiguration.hostname );
 		};
 	};
 }

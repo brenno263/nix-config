@@ -14,6 +14,18 @@
       ../../users/b
     ];
 
+  # Users config
+  userconfig.b = {
+    enable = true;
+    hostname = "hypergamma";
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
+
   # Bootloader.
   boot.loader.systemd-boot = {
     enable = true;
@@ -110,12 +122,6 @@
   #     flatpak
   #   ];
   # };
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
 
   # Enable automatic login for the user.
   #services.displayManager.autoLogin.enable = true;
