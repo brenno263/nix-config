@@ -27,7 +27,6 @@ in {
 				vscodium
 				zed-editor
 				neovim
-				gnome-extension-manager
 				flatpak
 				# discord is kinda borked right now for wayland. Just use it in browser for now
 				#discord

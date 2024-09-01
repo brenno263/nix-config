@@ -11,10 +11,10 @@
       gnome-contacts
       gnome-maps
       gnome-music
-      totem
-      yelp
+      totem # video player
+      yelp # help menu
       pkgs.gnome-tour
-      geary
+      geary # text editor
     ];
     programs.dconf.enable = true;
     environment.systemPackages = with pkgs; [

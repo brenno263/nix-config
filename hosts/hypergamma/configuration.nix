@@ -11,6 +11,7 @@
       ./hardware-configuration.nix
       ./nix-settings.nix
       ../../modules/nvidia
+      ../../modules/gnome
       ../../users/b
     ];
 
@@ -78,9 +79,8 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
+  # Use GDM even if we're not on Gnome
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -149,7 +149,6 @@
     #protonup
     #bottles
     #discord
-    gnome.gnome-tweaks
     btop
     #gwe
   ];
