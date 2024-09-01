@@ -10,7 +10,7 @@
       inputs.home-manager.nixosModules.default
       ./hardware-configuration.nix
       ./nix-settings.nix
-      ../../modules/nvidia
+      # ../../modules/nvidia
     ];
 
   # Bootloader.
@@ -20,7 +20,7 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "hypergamma"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -66,14 +66,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.displayManager.gdm.wayland = false;
-  # services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.defaultSession = "plasmax11";
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -127,12 +121,12 @@
   };
 
   # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "b";
+  #services.displayManager.autoLogin.enable = true;
+  #services.displayManager.autoLogin.user = "b";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
+  #systemd.services."getty@tty1".enable = false;
+  #systemd.services."autovt@tty1".enable = false;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -159,12 +153,12 @@
 
   # GAMING
   programs.steam.enable = true;
-  programs.steam.gamescopeSession.enable = true;
-  programs.gamemode.enable = true;
-  environment.sessionVariables = {
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
-      "/home/b/.steam/root/compatibilitytools.d";
-  };
+  #programs.steam.gamescopeSession.enable = true;
+  #programs.gamemode.enable = true;
+  #environment.sessionVariables = {
+  #  STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+  #    "/home/b/.steam/root/compatibilitytools.d";
+  #};
 
 
 
