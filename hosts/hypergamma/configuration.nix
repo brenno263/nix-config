@@ -10,7 +10,7 @@
       inputs.home-manager.nixosModules.default
       ./hardware-configuration.nix
       ./nix-settings.nix
-      # ../../modules/nvidia
+      ../../modules/nvidia
     ];
 
   # Bootloader.
@@ -79,7 +79,6 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -104,12 +103,10 @@
     description = "Brennan Seymour";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      vscode
       vscodium
       neovim
       gnome-extension-manager
       flatpak
-      prismlauncher
     ];
   };
 
@@ -142,17 +139,17 @@
     vim
     wget
     git
-    mangohud
-    protonup
-    bottles
-    discord
+    #mangohud
+    #protonup
+    #bottles
+    #discord
     gnome.gnome-tweaks
     btop
-    gwe
+    #gwe
   ];
 
   # GAMING
-  programs.steam.enable = true;
+  #programs.steam.enable = true;
   #programs.steam.gamescopeSession.enable = true;
   #programs.gamemode.enable = true;
   #environment.sessionVariables = {

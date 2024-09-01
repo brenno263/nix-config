@@ -16,7 +16,7 @@
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
-        ./hosts/hypergamma
+        ./hosts/hypergamma/configuration.nix
       ];
     };
   };

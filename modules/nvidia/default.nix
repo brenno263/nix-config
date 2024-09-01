@@ -6,18 +6,31 @@
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
   };
 
-  hardware.nvidia = {
-    nvidiaSettings = true;
-    modesetting.enable = true;
-    # Power management is required to get nvidia GPUs to behave on
-    # suspend, due to firmware bugs. Aren't nvidia great?
-    powerManagement.enable = true;
-    open = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
+  hardware.nvidia = {
+    # Enable Nvidia settings menu
+    nvidiaSettings = true;
+
+    # Modesetting is required
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+		powerManagement.enable = false;
+
+		# Fine-grained power management. Turns off GPU when not in use.
+		powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (currently a little buggy so false)
+		open = false;
+
+    # custom vaapi module settings
     vaapi = {
       enable = true;
       firefox.enable = true;
