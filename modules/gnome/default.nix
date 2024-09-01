@@ -9,6 +9,12 @@
     gnome-extension-manager
     gnome-tweaks
     dconf-editor
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+  ];
+
+  services.udev.packages = with pkgs; [
+    gnome.gnome-settings-daemon
   ];
 
   environment.gnome.excludePackages = with pkgs; [

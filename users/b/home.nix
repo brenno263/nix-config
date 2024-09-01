@@ -44,6 +44,7 @@
 			co = "checkout";
 			st = "status";
 			br = "branch";
+			cm = "commit";
 		};
 	};
 
@@ -58,5 +59,21 @@
 		shellAliases = {
 			nixswitch = ("sudo nixos-rebuild switch --flake ~/nixos#" + userConfiguration.hostname );
 		};
+	};
+
+	dconf = {
+		enable = true;
+
+		# set extensions
+		settings."org/gnome/shell" = {
+			disable-user-extensions = false;
+			enabled-extensions = with pkgs.gnomeExtensions; [
+				appindicator.extensionUuid
+				blur-my-shell.extensionUuid
+			];
+		};
+
+		# set dark mode
+		settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 	};
 }
