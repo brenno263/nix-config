@@ -2,13 +2,8 @@
   imports = [
     ./vaapi.nix
   ];
-  
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport32Bit = true;
-  };
 
+  # Enable OpenGL
   hardware.graphics = {
     enable = true;
     enable32Bit = true;

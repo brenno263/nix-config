@@ -11,6 +11,7 @@
       ./hardware-configuration.nix
       ./nix-settings.nix
       ../../modules/nvidia
+      ../../users/b
     ];
 
   # Bootloader.
@@ -98,21 +99,20 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.b = {
-    isNormalUser = true;
-    description = "Brennan Seymour";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      vscodium
-      neovim
-      gnome-extension-manager
-      flatpak
-    ];
-  };
+  # users.users.b = {
+  #   isNormalUser = true;
+  #   description = "Brennan Seymour";
+  #   extraGroups = [ "networkmanager" "wheel" ];
+  #   packages = with pkgs; [
+  #     vscodium
+  #     neovim
+  #     gnome-extension-manager
+  #     flatpak
+  #   ];
+  # };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users.b = import ./home.nix;
     useGlobalPkgs = true;
     useUserPackages = true;
   };
