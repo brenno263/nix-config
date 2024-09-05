@@ -46,6 +46,9 @@
 			br = "branch";
 			cm = "commit";
 		};
+		extraConfig = {
+			init.defaultBranch = "main";
+		};
 	};
 
 	programs.zsh = {
