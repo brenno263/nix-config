@@ -21,6 +21,7 @@
 
 	/*
 	there's a really sticky bug right now with kanata vs its dependency on uinput.
+	https://github.com/NixOS/nixpkgs/issues/317282
 	A workaround exists!
 	 - disable services.kanata
 	 - include this line enabling uinput manually
