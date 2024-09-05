@@ -32,6 +32,7 @@ in {
 				discord
 				vlc
 				kitty
+				spotify
 			];
 		};
 		fonts.packages = with pkgs; [
