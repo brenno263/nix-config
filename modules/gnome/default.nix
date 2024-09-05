@@ -23,7 +23,6 @@
       yelp # help menu
       geary # text editor
       gnome-text-editor
-      gnome-console
       gnome-contacts
       gnome-maps
       gnome-music
