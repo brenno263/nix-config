@@ -10,9 +10,14 @@
       inputs.home-manager.nixosModules.default
       ./hardware-configuration.nix
       ./nix-settings.nix
+
+      # USERS (make sure there's at least one!!)
+      ../../users/b
+
+      # CUSTOM MODULES
       ../../modules/nvidia
       ../../modules/gnome
-      ../../users/b
+      ../../modules/gaming
     ];
 
   # Users config
@@ -116,10 +121,7 @@
   #   description = "Brennan Seymour";
   #   extraGroups = [ "networkmanager" "wheel" ];
   #   packages = with pkgs; [
-  #     vscodium
   #     neovim
-  #     gnome-extension-manager
-  #     flatpak
   #   ];
   # };
 
@@ -145,24 +147,8 @@
     vim
     wget
     git
-    #mangohud
-    #protonup
-    #bottles
-    #discord
     btop
-    #gwe
   ];
-
-  # GAMING
-  #programs.steam.enable = true;
-  #programs.steam.gamescopeSession.enable = true;
-  #programs.gamemode.enable = true;
-  #environment.sessionVariables = {
-  #  STEAM_EXTRA_COMPAT_TOOLS_PATHS =
-  #    "/home/b/.steam/root/compatibilitytools.d";
-  #};
-
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

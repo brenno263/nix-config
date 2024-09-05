@@ -61,6 +61,13 @@
 		};
 	};
 
+	programs.kitty = {
+		enable = true;
+		extraConfig = ''
+			window_margin_width 4
+		'';
+	};
+
 	dconf = {
 		enable = true;
 

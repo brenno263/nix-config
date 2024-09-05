@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # For user packages and dotfiles
     home-manager = {
@@ -11,10 +12,15 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.hypergamma = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations.hypergamma = let
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
+    in
+    nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = {
+        inputs = inputs // { system = system; };
+      };
       modules = [
         ./hosts/hypergamma/configuration.nix
       ];
