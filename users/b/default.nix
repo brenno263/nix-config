@@ -5,7 +5,7 @@ in {
 
 	imports = [
 		# pending https://discourse.nixos.org/t/services-kanata-attribute-lib-missing/51476
-		# ./kanata.nix
+		./kanata.nix
 		inputs.home-manager.nixosModules.default
 	];
 
@@ -29,8 +29,9 @@ in {
 				neovim
 				flatpak
 				# discord is kinda borked right now for wayland. Just use it in browser for now
-				#discord
+				discord
 				vlc
+				kitty
 			];
 		};
 		fonts.packages = with pkgs; [
