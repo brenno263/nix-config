@@ -25,6 +25,9 @@
     # Use the NVidia open source kernel module (currently a little buggy so false)
 		open = false;
 
+    # Sometimes reduces performance, but helps with TEARING (my mortal enemy)
+    forceFullCompositionPipeline = true;
+
     # custom vaapi module settings
     vaapi = {
       enable = true;
