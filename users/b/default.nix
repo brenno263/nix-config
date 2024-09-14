@@ -33,6 +33,7 @@ in {
 				vlc
 				kitty
 				spotify
+				gimp
 			];
 		};
 		fonts.packages = with pkgs; [
