@@ -13,14 +13,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.kernelParams = [
-    # monitor overclock
-    "video=HDMI-1:1920x1080@85"
-    # show splash screen on boot
-    "quiet"
-    "splash"
-  ];
-
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/bbbc6389-312e-439d-b4db-0fcb8b7c1cc8";
       fsType = "ext4";
