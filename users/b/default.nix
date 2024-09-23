@@ -34,6 +34,7 @@ in {
 				kitty
 				spotify
 				gimp
+				asdf-vm
 			];
 		};
 		fonts.packages = with pkgs; [

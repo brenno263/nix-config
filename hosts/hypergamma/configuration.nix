@@ -146,8 +146,13 @@
   #  wget
     vim
     wget
+    curl
     git
+    htop
     btop
+    dig
+    traceroute
+    nmap
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
