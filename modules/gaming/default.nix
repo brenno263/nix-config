@@ -17,5 +17,7 @@
     nethack
     vitetris
     techmino
+    r2modman
+    pcsx2
   ];
 }

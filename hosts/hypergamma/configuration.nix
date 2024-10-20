@@ -154,6 +154,8 @@
     traceroute
     nmap
     ungoogled-chromium
+    vesktop
+    brave
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
