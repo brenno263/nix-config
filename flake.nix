@@ -10,6 +10,12 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs"; # use system packages list where available
     };
+
+    # A modified blender that works with Nvidia's proprietary CUDA stuff
+    blender-bin-flake = {
+      url = "github:edolstra/nix-warez?dir=blender";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {

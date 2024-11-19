@@ -137,7 +137,15 @@
   programs.firefox.enable = true;
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+
+    # setting cuda support allows us to build all kind of apps
+    # with gpu acceleration. Unfortunately they're not cached,
+    # so this induces a LOT of compilation :/
+    # I'm leaving it off unless I decide I really need it.
+    # cudaSupport = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -159,6 +167,9 @@
     pavucontrol
     parsec-bin
     godot_4
+    signal-desktop
+  ] ++ [
+    inputs.blender-bin-flake.packages.${inputs.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

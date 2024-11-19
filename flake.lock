@@ -1,5 +1,27 @@
 {
   "nodes": {
+    "blender-bin-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "blender",
+        "lastModified": 1731926665,
+        "narHash": "sha256-YdhIWGZPoX2/fmBZomcFhdhos03RqNz9kU+aePTM1Q4=",
+        "owner": "edolstra",
+        "repo": "nix-warez",
+        "rev": "3e13b35b779258838684391b40512a44f637ea25",
+        "type": "github"
+      },
+      "original": {
+        "dir": "blender",
+        "owner": "edolstra",
+        "repo": "nix-warez",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -55,6 +77,7 @@
     },
     "root": {
       "inputs": {
+        "blender-bin-flake": "blender-bin-flake",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable"
