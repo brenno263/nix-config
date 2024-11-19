@@ -157,6 +157,8 @@
     vesktop
     brave
     pavucontrol
+    parsec-bin
+    godot_4
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

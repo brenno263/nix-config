@@ -23,6 +23,12 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
+  
+  fileSystems."/run/media/b/linux_games" =
+    {
+      device = "/dev/disk/by-uuid/14198475-0a6e-454a-8428-555e9e51934c";
+      options = ["nofail"];
+    };
 
   swapDevices = [ ];
 
