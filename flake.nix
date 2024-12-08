@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # For user packages and dotfiles
@@ -19,17 +19,17 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations.hypergamma = let
-      system = "x86_64-linux";
-    in
-    nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = {
-        inputs = inputs // { system = system; };
+      nixosConfigurations.hypergamma = let
+        system = "x86_64-linux";
+      in
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inputs = inputs // { system = system; };
+        };
+        modules = [
+          ./hosts/hypergamma/configuration.nix
+        ];
       };
-      modules = [
-        ./hosts/hypergamma/configuration.nix
-      ];
-    };
   };
 }

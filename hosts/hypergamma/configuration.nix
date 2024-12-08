@@ -77,7 +77,7 @@
     };
     p2 = {
       limit = 180;
-      window = 0.0025;
+      window = 0.004;
     };
   };
 
@@ -168,6 +168,7 @@
     parsec-bin
     godot_4
     signal-desktop
+    # godot-libxcrypt
   ] ++ [
     inputs.blender-bin-flake.packages.${inputs.system}.default
   ];
