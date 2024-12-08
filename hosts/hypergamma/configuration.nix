@@ -18,6 +18,7 @@
       ../../modules/nvidia
       ../../modules/gnome
       ../../modules/gaming
+      ../../modules/godot-3-libxcrypt.nix
     ];
 
   # Users config

@@ -66,7 +66,7 @@
 
 	programs.kitty = {
 		enable = true;
-		theme = "Apprentice";
+		themeFile = "Apprentice";
 		extraConfig = ''
 			window_margin_width 4
 		'';

@@ -14,7 +14,7 @@
   ];
 
   services.udev.packages = with pkgs; [
-    gnome.gnome-settings-daemon
+    gnome-settings-daemon
   ];
 
   environment.gnome.excludePackages = with pkgs; [
