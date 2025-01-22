@@ -40,6 +40,20 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
+
+  # set kernel module params
+  # boot.extraModprobeConfig = ''
+    # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
+  # '';
+
+  # get wireshark workin
+  programs.wireshark.enable = true;
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
+  ''; 
+
+
+
   networking.hostName = "hypergamma"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -169,7 +183,13 @@
     parsec-bin
     godot_4
     signal-desktop
-    # godot-libxcrypt
+    wireshark
+
+    # system stuff, maybe modularize this later?
+    usbutils
+    sysfsutils
+    libinput
+    gnumake
   ] ++ [
     inputs.blender-bin-flake.packages.${inputs.system}.default
   ];

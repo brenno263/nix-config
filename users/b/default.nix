@@ -21,10 +21,11 @@ in {
 		users.users.b = {
 			isNormalUser = true;
 			description = "Brennan Seymour";
-			extraGroups = [ "networkmanager" "wheel" ];
+			extraGroups = [ "networkmanager" "wheel" "wireshark" ];
 			shell = pkgs.zsh;
 			packages = with pkgs; [
 				vscodium
+				vscode
 				zed-editor
 				neovim
 				flatpak
