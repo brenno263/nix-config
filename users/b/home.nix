@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, userConfiguration, ... }:
+{ config, pkgs, flake-inputs, userConfiguration, ... }:
 {
 	# Home Manager needs a bit of information about you and the
 	# paths it should manage.

@@ -1,4 +1,4 @@
-{config, lib, pkgs, inputs, ...}: {
+{config, lib, pkgs, pkgs-stable, flake-inputs, ...}: {
 
 	imports = [
 		# TODO: undo this later when the fix rolls out
@@ -8,11 +8,10 @@
 			disabledModules = [ "services/hardware/kanata.nix" ];
 			# swap the system package to the stable one
 			nixpkgs.overlays = let
-				pkgs-stable = inputs.nixpkgs-stable.legacyPackages.${inputs.system};
 			in [ (self: super: { kanata = pkgs-stable.kanata; }) ];
 		}
 		# enable the stable module
-		"${inputs.nixpkgs-stable}/nixos/modules/services/hardware/kanata.nix"
+		"${flake-inputs.nixpkgs-stable}/nixos/modules/services/hardware/kanata.nix"
 	];
 
 	# environment.systemPackages = [

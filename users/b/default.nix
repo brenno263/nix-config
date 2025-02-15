@@ -1,4 +1,4 @@
-{config, lib, pkgs, inputs, ...}:
+{config, lib, pkgs, flake-inputs, ...}:
 let
 	cfg = config.userconfig.b;
 in {
@@ -6,7 +6,7 @@ in {
 	imports = [
 		# pending https://discourse.nixos.org/t/services-kanata-attribute-lib-missing/51476
 		./kanata.nix
-		inputs.home-manager.nixosModules.default
+		flake-inputs.home-manager.nixosModules.default
 	];
 
 	options.userconfig.b = {
@@ -40,17 +40,15 @@ in {
 			];
 		};
 		fonts.packages = with pkgs; [
-			(nerdfonts.override {fonts = [
-				"ComicShannsMono"
-				"Meslo"
-				"FiraCode"
-			];})
+			nerd-fonts.comic-shanns-mono
+			nerd-fonts.meslo-lg
+			nerd-fonts.fira-code
 		];
 		programs.zsh.enable = true;
 		home-manager = {
 			users.b = ./home.nix;
 			extraSpecialArgs = {
-				inherit inputs;
+				inherit flake-inputs;
 				userConfiguration = cfg;
 			};
 		};

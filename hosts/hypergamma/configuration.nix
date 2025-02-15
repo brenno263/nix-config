@@ -2,12 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, flake-inputs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      inputs.home-manager.nixosModules.default
+    [
+      flake-inputs.home-manager.nixosModules.default
       ./hardware-configuration.nix
       ./nix-settings.nix
 
@@ -15,10 +15,11 @@
       ../../users/b
 
       # CUSTOM MODULES
-      ../../modules/nvidia
+      # ../../modules/nvidia
+      ../../modules/amdgpu.nix
       ../../modules/gnome
       ../../modules/gaming
-      ../../modules/godot-3-libxcrypt.nix
+      # ../../modules/godot-3-libxcrypt.nix
     ];
 
   # Users config
@@ -28,7 +29,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit flake-inputs; };
     useGlobalPkgs = true;
     useUserPackages = true;
   };
@@ -39,6 +40,9 @@
     configurationLimit = 8;
   };
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # set kernel version
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
 
   # set kernel module params
@@ -85,13 +89,13 @@
   # undervolt
   services.undervolt = {
     enable = true;
-    coreOffset = -50;
+    coreOffset = -55;
     p1 = {
-      limit = 90;
+      limit = 85;
       window = 28;
     };
     p2 = {
-      limit = 180;
+      limit = 160;
       window = 0.004;
     };
   };
@@ -112,7 +116,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -191,7 +195,7 @@
     libinput
     gnumake
   ] ++ [
-    inputs.blender-bin-flake.packages.${inputs.system}.default
+    flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
