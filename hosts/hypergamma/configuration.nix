@@ -89,7 +89,7 @@
   # undervolt
   services.undervolt = {
     enable = true;
-    coreOffset = -55;
+    coreOffset = -52;
     p1 = {
       limit = 85;
       window = 28;
@@ -188,6 +188,7 @@
     godot_4
     signal-desktop
     wireshark
+    discord
 
     # system stuff, maybe modularize this later?
     usbutils
@@ -195,7 +196,8 @@
     libinput
     gnumake
   ] ++ [
-    flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
+    # don't need this now that I have an amd gpu
+    # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

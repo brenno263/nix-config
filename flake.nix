@@ -13,7 +13,7 @@
     home-manager = {
       # TODO: update this to 25.05 when it's out
       url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs-stable"; # use system packages list where available
+      inputs.nixpkgs.follows = "nixpkgs"; # use system packages list where available
     };
 
     # A modified blender that works with Nvidia's proprietary CUDA stuff
