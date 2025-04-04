@@ -188,7 +188,10 @@
     godot_4
     signal-desktop
     wireshark
-    discord
+    qbittorrent
+    rpcs3
+    libreoffice
+
 
     # system stuff, maybe modularize this later?
     usbutils
