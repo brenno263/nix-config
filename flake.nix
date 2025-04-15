@@ -12,7 +12,7 @@
     # For user packages and dotfiles
     home-manager = {
       # TODO: update this to 25.05 when it's out
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs"; # use system packages list where available
     };
 
