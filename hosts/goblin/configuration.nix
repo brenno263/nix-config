@@ -2,63 +2,30 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, flake-inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
-    [
-      flake-inputs.home-manager.nixosModules.default
+    [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      # USERS (make sure there's at least one!!)
+      # Users
       ../../users/b
 
-      # CUSTOM MODULES
-      # ../../modules/nvidia
+      # Custom modules
       ../../modules/nix-settings.nix
-      ../../modules/amdgpu.nix
-      ../../modules/gnome
-      ../../modules/gaming
-      # ../../modules/godot-3-libxcrypt.nix
     ];
-
-  # Users config
+  
   userconfig.b = {
     enable = true;
-    hostname = "hypergamma";
-  };
-
-  home-manager = {
-    extraSpecialArgs = { inherit flake-inputs; };
-    useGlobalPkgs = true;
-    useUserPackages = true;
+    hostname = "goblin";
   };
 
   # Bootloader.
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 8;
-  };
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # set kernel version
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-
-  # set kernel module params
-  # boot.extraModprobeConfig = ''
-    # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
-  # '';
-
-  # get wireshark workin
-  programs.wireshark.enable = true;
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
-  ''; 
-
-
-
-  networking.hostName = "hypergamma"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -86,25 +53,12 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # undervolt
-  services.undervolt = {
-    enable = true;
-    coreOffset = -52;
-    p1 = {
-      limit = 85;
-      window = 28;
-    };
-    p2 = {
-      limit = 160;
-      window = 0.004;
-    };
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Use GDM even if we're not on Gnome
-  services.xserver.displayManager.gdm.enable = true;
+  # Enable the XFCE Desktop Environment.
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -116,7 +70,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -135,73 +89,53 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.b = {
-  #   isNormalUser = true;
-  #   description = "Brennan Seymour";
-  #   extraGroups = [ "networkmanager" "wheel" ];
-  #   packages = with pkgs; [
-  #     neovim
-  #   ];
-  # };
-
-  # Enable automatic login for the user.
-  #services.displayManager.autoLogin.enable = true;
-  #services.displayManager.autoLogin.user = "b";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  #systemd.services."getty@tty1".enable = false;
-  #systemd.services."autovt@tty1".enable = false;
+  users.users.b = {
+    isNormalUser = true;
+    description = "Brennan Seymour";
+    extraGroups = [ "networkmanager" "wheel" ];
+  };
 
   # Install firefox.
   programs.firefox.enable = true;
 
   # Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-
-    # setting cuda support allows us to build all kind of apps
-    # with gpu acceleration. Unfortunately they're not cached,
-    # so this induces a LOT of compilation :/
-    # I'm leaving it off unless I decide I really need it.
-    # cudaSupport = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
     vim
-    wget
-    curl
     git
-    htop
-    btop
-    dig
-    traceroute
-    nmap
-    ungoogled-chromium
-    vesktop
-    brave
-    pavucontrol
-    parsec-bin
-    godot_4
-    signal-desktop
-    wireshark
-    qbittorrent
-    rpcs3
-    libreoffice
-
-
-    # system stuff, maybe modularize this later?
-    usbutils
-    sysfsutils
-    libinput
-    gnumake
-  ] ++ [
-    # don't need this now that I have an amd gpu
-    # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
+    xscreensaver
+    nextcloud30
+    inkscape
   ];
+
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = null;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
+
+  environment.etc."nextcloud-admin-pass".text = "password";
+  services.nextcloud = {
+    enable = true;
+    package = pkgs.nextcloud30;
+    hostName = "192.168.5.227";
+    maxUploadSize = "10G";
+    datadir = "/run/media/spinning-rust/nextcloud-data";
+    config = {
+      adminpassFile = "/etc/nextcloud-admin-pass";
+      dbtype = "sqlite";
+    };
+  };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -217,10 +151,13 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [
+    22
+    80
+    443
+  ];
+  networking.firewall.allowedUDPPorts = [];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -228,6 +165,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

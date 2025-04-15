@@ -3,16 +3,16 @@
 	imports = [
 		# TODO: undo this later when the fix rolls out
 		# Temporarily use the stable packaage - the unstable one is broken rn 😥
-		{
-			# disable the unstable module
-			disabledModules = [ "services/hardware/kanata.nix" ];
-			# swap the system package to the stable one
-			nixpkgs.overlays = let
-			in [ (self: super: { kanata = pkgs-stable.kanata; }) ];
-		}
+		# {
+		# 	# disable the unstable module
+		# 	disabledModules = [ "services/hardware/kanata.nix" ];
+		# 	# swap the system package to the stable one
+		# 	nixpkgs.overlays = let
+		# 	in [ (self: super: { kanata = pkgs-stable.kanata; }) ];
+		# }
 		# enable the stable module
-		"${flake-inputs.nixpkgs-stable}/nixos/modules/services/hardware/kanata.nix"
-	];
+		# "${flake-inputs.nixpkgs-stable}/nixos/modules/services/hardware/kanata.nix"
+        ];
 
 	# environment.systemPackages = [
 	# 	pkgs.kanata

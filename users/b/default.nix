@@ -29,8 +29,6 @@ in {
 				zed-editor
 				neovim
 				flatpak
-				# discord is kinda borked right now for wayland. Just use it in browser for now
-				discord
 				obsidian
 				vlc
 				kitty
