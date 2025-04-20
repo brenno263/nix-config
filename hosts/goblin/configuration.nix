@@ -109,6 +109,7 @@
     xscreensaver
     nextcloud30
     inkscape
+    frp
   ];
 
   services.openssh = {
@@ -134,6 +135,13 @@
       adminpassFile = "/etc/nextcloud-admin-pass";
       dbtype = "sqlite";
     };
+  };
+
+  services.frp = {
+    enable = true;
+    role = "client";
+    package = pkgs.frp;
+    settings = ./frpc/frpc.nix;
   };
 
 
