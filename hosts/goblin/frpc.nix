@@ -1,3 +1,5 @@
+# we expect to have a `secrets.nix` piped in for auth tokens etc.
+{ secrets }:
 {
   # This configuration file is for reference only. Please do not use this configuration directly to run the program as it may have various issues.
 
@@ -18,7 +20,7 @@
   loginFailExit = true;
 
   # console or real logFile path like ./frpc.log
-  log.to = "./frpc.log":
+  log.to = "./frpc.log";
   # trace, debug, info, warn, error
   log.level = "info";
   log.maxDays = 3;
@@ -32,7 +34,7 @@
 
   # auth token
   # auth.token = "12345678";
-  auth.token = builtins.readFile "/etc/nixos/secrets/frp-token";
+  auth.token = secrets.frp-token;
 
   # oidc.clientID specifies the client ID to use to get a token in OIDC authentication.
   # auth.oidc.clientID = ""

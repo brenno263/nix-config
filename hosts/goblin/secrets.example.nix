@@ -1,0 +1,3 @@
+{
+  frp-token = "CHANGEME";
+}

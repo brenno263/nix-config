@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  secrets = import ./secrets.nix;
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -141,7 +143,7 @@
     enable = true;
     role = "client";
     package = pkgs.frp;
-    settings = ./frpc/frpc.nix;
+    settings = import ./frpc.nix { inherit secrets; };
   };
 
 
