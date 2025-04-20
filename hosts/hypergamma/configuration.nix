@@ -21,7 +21,7 @@
       ../../modules/gaming
       # ../../modules/godot-3-libxcrypt.nix
     ];
-
+  
   # Users config
   userconfig.b = {
     enable = true;
@@ -186,12 +186,11 @@
     pavucontrol
     parsec-bin
     godot_4
-    signal-desktop
+    signal-desktop-bin
     wireshark
     qbittorrent
     rpcs3
     libreoffice
-
 
     # system stuff, maybe modularize this later?
     usbutils
@@ -199,8 +198,10 @@
     libinput
     gnumake
   ] ++ [
-    # don't need this now that I have an amd gpu
+    ### packages from flakes ###
+    # don't need blender-bin now that I have an amd gpu
     # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
+    flake-inputs.agenix.packages.${flake-inputs.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -214,7 +215,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

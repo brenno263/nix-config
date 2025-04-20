@@ -1,7 +1,10 @@
 # we expect to have a `secrets.nix` piped in for auth tokens etc.
-{ secrets }:
+{ frp-token-path }:
 {
-  # This configuration file is for reference only. Please do not use this configuration directly to run the program as it may have various issues.
+  # Include other config files
+  # includes = [ frp-token-path ];
+  # includes = [ "/etc/frp-token.toml" ];
+  auth.token = "__FRP_TOKEN__";
 
   # your proxy name will be changed to {user}.{proxy}
   user = "goblin";
@@ -34,7 +37,7 @@
 
   # auth token
   # auth.token = "12345678";
-  auth.token = secrets.frp-token;
+  # this is defined in frp-token.toml, which is encrypted by agenix and imported at the top.
 
   # oidc.clientID specifies the client ID to use to get a token in OIDC authentication.
   # auth.oidc.clientID = ""
@@ -146,8 +149,6 @@
   # metadatas.var1 = "abc";
   # metadatas.var2 = "123";
 
-  # Include other config files for proxies.
-  # includes = ["./confd/*.ini"]
 
   proxies = [
     {
@@ -223,7 +224,7 @@
           { name = "x-from-where"; value = "frp"; }
         ];
 
-      }
+      };
     }
   ];
 

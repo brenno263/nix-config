@@ -22,6 +22,7 @@
 	home.sessionVariables = {
 		MANGOHUD_CONFIGFILE =
 			"/home/b/.config/mangohud.conf";
+		EDITOR = "nvim";
 	};
 
 	home.file.".config/mangohud.conf".source = ./mangohud.conf;
@@ -35,6 +36,13 @@
 		"SKIP_HOST_UPDATE": true
 	}
 	'';
+
+	programs.neovim = {
+		enable = true;
+		extraConfig = ''
+			set number relativeNumber
+		'';
+	};
 
 	programs.git = {
 		enable = true;

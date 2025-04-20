@@ -8,26 +8,28 @@
     nixpkgs-stable = {
       url = "github:nixos/nixpkgs/nixos-24.11"; 
     };
-
     # For user packages and dotfiles
     home-manager = {
       # TODO: update this to 25.05 when it's out
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs"; # use system packages list where available
     };
-
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }; 
     # A modified blender that works with Nvidia's proprietary CUDA stuff
     blender-bin-flake = {
       url = "github:edolstra/nix-warez?dir=blender";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
   outputs = {
     self,
     nixpkgs,
     nixpkgs-stable,
     home-manager,
+    agenix,
     blender-bin-flake,
     ...
   }@inputs: {
@@ -47,6 +49,7 @@
       };
       modules = [
         ./hosts/hypergamma/configuration.nix
+        agenix.nixosModules.default
       ];
     };
 
@@ -64,6 +67,7 @@
       };
       modules = [
         ./hosts/goblin/configuration.nix
+        agenix.nixosModules.default
       ];
     };
 

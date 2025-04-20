@@ -3,10 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-let
-  secrets = import ./secrets.nix;
-in {
+{
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -16,6 +13,7 @@ in {
 
       # Custom modules
       ../../modules/nix-settings.nix
+      ../../modules/frp/frp.nix
     ];
   
   userconfig.b = {
@@ -27,7 +25,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "goblin"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -139,11 +137,17 @@ in {
     };
   };
 
-  services.frp = {
+  age.secrets."frp-token" = {
+    file = ../../secrets/frp-token.age;
+    user = "frp";
+    group = "frp";
+  };
+  services.custom-frp = {
     enable = true;
     role = "client";
     package = pkgs.frp;
-    settings = import ./frpc.nix { inherit secrets; };
+    settings = import ./frpc.nix;
+    tokenFile = config.age.secrets."frp-token".path;
   };
 
 
