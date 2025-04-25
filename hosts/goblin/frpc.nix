@@ -1,9 +1,5 @@
-# we expect to have a `secrets.nix` piped in for auth tokens etc.
-{ frp-token-path }:
 {
-  # Include other config files
-  # includes = [ frp-token-path ];
-  # includes = [ "/etc/frp-token.toml" ];
+  # This is templated in via sed before the service is started.
   auth.token = "__FRP_TOKEN__";
 
   # your proxy name will be changed to {user}.{proxy}
@@ -23,7 +19,7 @@
   loginFailExit = true;
 
   # console or real logFile path like ./frpc.log
-  log.to = "./frpc.log";
+  log.to = "console";
   # trace, debug, info, warn, error
   log.level = "info";
   log.maxDays = 3;
@@ -150,6 +146,9 @@
   # metadatas.var2 = "123";
 
 
+  # Include other config files
+  # includes = [ "./confd/my-file.toml" ];
+
   proxies = [
     {
       # 'ssh' is the unique proxy name
@@ -201,8 +200,8 @@
       # httpUser = "admin";
       # httpPassword = "admin";
       # if domain for frps is frps.com, then you can access [web01] proxy by URL http://web01.frps.com
-      subdomain = "nextcloud";
-      customDomains = ["nextcloud.qrimby.com"];
+      # subdomain = "nextcloud";
+      customDomains = ["qrimby.com"];
       # locations is only available for http type
       # locations = ["/", "/pic"]
       # route requests to this service if http basic auto user is abc
@@ -220,7 +219,7 @@
         timeoutSeconds = 3;
         # set health check headers
         httpHeaders = [
-          { name = "User-Agent"; value = "FRP-Healthceck"; }
+          { name = "User-Agent"; value = "FRP-Healthcheck"; }
           { name = "x-from-where"; value = "frp"; }
         ];
 

@@ -102,6 +102,8 @@ in
             User = "frp";
             Group = "frp";
             ExecStart = "${cfg.package}/bin/${executableFile} --strict_config -c /etc/frp/frp.toml";
+            StandardOutput = "journal";
+	    StandardError = "journal";
             # Hardening
             UMask = lib.optionalString isServer "0007";
             CapabilityBoundingSet = serviceCapability;

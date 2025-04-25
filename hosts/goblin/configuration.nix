@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -128,18 +128,71 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud30;
-    hostName = "192.168.5.227";
+    hostName = "qrimby.com";
     maxUploadSize = "10G";
     datadir = "/run/media/spinning-rust/nextcloud-data";
     config = {
       adminpassFile = "/etc/nextcloud-admin-pass";
-      dbtype = "sqlite";
+      dbtype = "pgsql";
+      dbhost = "localhost";
+      dbuser = "nextcloud";
+      dbname = "nextcloud";
+      dbpassFile = config.age.secrets."nextcloud-pg-pass".path;
+    };
+    settings = {
+      trusted_domains = [ "192.168.5.227" ];
+      overwriteprotocol = "https";
+    };
+    extraApps = with pkgs.nextcloud30Packages.apps; {
+      inherit calendar contacts cookbook;
+    };
+    configureRedis = true;
+    caching.redis = true;
+  };
+
+
+  age.secrets."nextcloud-pg-pass" = {
+    file = ../../secrets/nextcloud-pg-pass.age;
+    owner = "nextcloud";
+  };
+  systemd.services.set-nextcloud-db-pass = {
+    description = "Set password for the nextcloud user in pg";
+    after = [ "postgresql.service" "agenix.service" ];
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      PASS=$(cat ${config.age.secrets."nextcloud-pg-pass".path})
+      runuser -u postgres -- psql -U postgres -c "ALTER USER nextcloud WITH PASSWORD '$PASS';"
+    '';
+    path = [ pkgs.util-linux pkgs.postgresql_15 ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
     };
   };
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_15;
+    ensureDatabases = [
+      "nextcloud"
+    ];
+    ensureUsers = [
+      {
+        name = "nextcloud";
+	ensureDBOwnership = true;
+      }
+    ];
+  };
+
+  services.redis = {
+    enable = true;
+    unixSocket = "/run/redis/redis.sock";
+    unixSocketPerm = 770;
+  };
+   
 
   age.secrets."frp-token" = {
     file = ../../secrets/frp-token.age;
-    user = "frp";
+    owner = "frp";
     group = "frp";
   };
   services.custom-frp = {
