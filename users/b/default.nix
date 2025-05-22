@@ -21,7 +21,7 @@ in {
 		users.users.b = {
 			isNormalUser = true;
 			description = "Brennan Seymour";
-			extraGroups = [ "networkmanager" "wheel" "wireshark" ];
+			extraGroups = [ "networkmanager" "wheel" "wireshark" "docker" ];
 			shell = pkgs.zsh;
 			packages = with pkgs; [
 				vscodium

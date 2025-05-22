@@ -191,12 +191,15 @@
     qbittorrent
     rpcs3
     libreoffice
+    calibre
+    obs-studio
 
     # system stuff, maybe modularize this later?
     usbutils
     sysfsutils
     libinput
     gnumake
+    vulkan-tools
   ] ++ [
     ### packages from flakes ###
     # don't need blender-bin now that I have an amd gpu
@@ -216,6 +219,8 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  virtualisation.docker.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
