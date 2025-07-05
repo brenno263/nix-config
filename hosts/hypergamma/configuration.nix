@@ -200,6 +200,7 @@
     libinput
     gnumake
     vulkan-tools
+    iputils
   ] ++ [
     ### packages from flakes ###
     # don't need blender-bin now that I have an amd gpu
