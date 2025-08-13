@@ -18,6 +18,7 @@
       ../../modules/nix-settings.nix
       ../../modules/amdgpu.nix
       ../../modules/gnome
+      ../../modules/cosmic.nix
       ../../modules/gaming
       # ../../modules/godot-3-libxcrypt.nix
     ];
