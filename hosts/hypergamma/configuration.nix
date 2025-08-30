@@ -21,6 +21,8 @@
       ../../modules/cosmic.nix
       ../../modules/gaming
       # ../../modules/godot-3-libxcrypt.nix
+      ../../modules/gnupg.nix
+      ./tailscale.nix
     ];
   
   # Users config
@@ -105,7 +107,7 @@
   services.xserver.enable = true;
 
   # Use GDM even if we're not on Gnome
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -194,6 +196,7 @@
     libreoffice
     calibre
     obs-studio
+    networkmanagerapplet
 
     # system stuff, maybe modularize this later?
     usbutils
@@ -207,6 +210,11 @@
     # don't need blender-bin now that I have an amd gpu
     # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
     flake-inputs.agenix.packages.${flake-inputs.system}.default
+  ];
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    exfat # for ventoy scripts
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
