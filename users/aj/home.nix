@@ -66,6 +66,7 @@
 
 		shellAliases = {
 			nixswitch = ("sudo nixos-rebuild switch --flake ~/nixos#" + userConfiguration.hostname );
+			update = ("~/nixos/update.sh " + userConfiguration.hostname );
 		};
 	};
 

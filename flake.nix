@@ -23,6 +23,7 @@
       url = "github:edolstra/nix-warez?dir=blender";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
   outputs = {
     self,
@@ -31,6 +32,7 @@
     home-manager,
     agenix,
     blender-bin-flake,
+    nixos-hardware,
     ...
   }@inputs: {
     # the rec keyword allows the attrset to self-reference, obviating a let-in stmt.
@@ -86,6 +88,7 @@
       };
       modules = [
         ./hosts/aj-framework/configuration.nix
+        nixos-hardware.nixosModules.framework-12th-gen-intel
       ];
     };    
 
