@@ -71,5 +71,23 @@
       ];
     };
 
+    nixosConfigurations.aj-framework = nixpkgs.lib.nixosSystem rec {
+      system = "x86_64-linux";
+
+      # specialArgs are added to the inputs of all modules
+      specialArgs = {
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          allowUnfree = true;
+        };
+
+        # make flake inputs available why not
+        flake-inputs = inputs // {inherit system;};
+      };
+      modules = [
+        ./hosts/aj-framework/configuration.nix
+      ];
+    };    
+
   };
 }
