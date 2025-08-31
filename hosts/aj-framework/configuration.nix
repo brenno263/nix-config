@@ -16,6 +16,7 @@
       # CUSTOM MODULES
       ../../modules/nix-settings.nix
       ../../modules/gnome
+      ../../modules/gaming
     ];
   
   # Users config
@@ -86,18 +87,10 @@
   };
 
   # undervolt
-  #services.undervolt = {
-  #  enable = true;
-  #  coreOffset = -52;
-  #  p1 = {
-  #    limit = 85;
-  #    window = 28;
-  #  };
-  #  p2 = {
-  #    limit = 160;
-  #    window = 0.004;
-  #  };
-  #};
+  # services.undervolt = {
+  #   enable = true;
+  #   coreOffset = -50;
+  # };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -179,7 +172,6 @@
     dig
     traceroute
     nmap
-    ungoogled-chromium
     vesktop
     brave
     pavucontrol
@@ -187,6 +179,7 @@
     libreoffice
     calibre
     spotify
+    google-chrome
 
     # system stuff, maybe modularize this later?
     usbutils

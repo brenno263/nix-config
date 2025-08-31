@@ -193,6 +193,7 @@
     wireshark
     qbittorrent
     rpcs3
+    pcsx2
     libreoffice
     calibre
     obs-studio

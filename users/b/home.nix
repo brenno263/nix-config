@@ -23,6 +23,8 @@
 		MANGOHUD_CONFIGFILE =
 			"/home/b/.config/mangohud.conf";
 		EDITOR = "nvim";
+		STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+		  "/home/b/.steam/root/compatibilitytools.d";
 	};
 
 	home.file.".config/mangohud.conf".source = ./mangohud.conf;
