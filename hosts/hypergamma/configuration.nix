@@ -212,6 +212,7 @@
     # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
     flake-inputs.agenix.packages.${flake-inputs.system}.default
   ];
+  programs.zoom-us.enable = true;
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
