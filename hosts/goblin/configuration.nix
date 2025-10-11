@@ -13,7 +13,6 @@
 
       # Custom modules
       ../../modules/nix-settings.nix
-      ../../modules/frp/frp.nix
     ];
   
   userconfig.b = {
@@ -107,7 +106,7 @@
     vim
     git
     xscreensaver
-    nextcloud30
+    nextcloud31
     inkscape
     frp
   ];
@@ -127,8 +126,8 @@
   environment.etc."nextcloud-admin-pass".text = "password";
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud30;
-    hostName = "qrimby.com";
+    package = pkgs.nextcloud31;
+    hostName = "nc.beensoup.net";
     maxUploadSize = "10G";
     datadir = "/run/media/spinning-rust/nextcloud-data";
     config = {
@@ -143,7 +142,7 @@
       trusted_domains = [ "192.168.5.227" ];
       overwriteprotocol = "https";
     };
-    extraApps = with pkgs.nextcloud30Packages.apps; {
+    extraApps = with pkgs.nextcloud31Packages.apps; {
       inherit calendar contacts cookbook;
     };
     configureRedis = true;
@@ -190,24 +189,24 @@
   };
    
 
+  # We declare a custom group for permissioning who can read the secret file
+  users.groups."frp-secret" = {};
   age.secrets."frp-token" = {
     file = ../../secrets/frp-token.age;
-    owner = "frp";
-    group = "frp";
+    group = "frp-secret";
+    mode = "0440"; # group-readable
   };
   services.frp = {
     enable = true;
     role = "client";
     package = pkgs.frp;
+    # frpc.nix holds a function that takes the secret file path and outputs frp client config
     settings = (import ./frpc.nix) config.age.secrets."frp-token".path;
-  }
-  # services.custom-frp = {
-  #   enable = true;
-  #   role = "client";
-  #   package = pkgs.frp;
-  #   settings = import ./frpc.nix;
-  #   tokenFile = config.age.secrets."frp-token".path;
-  # };
+  };
+  # We override this property of the frp service so it has the neccessary group
+  systemd.services.frp.serviceConfig.SupplementaryGroups = [ "frp-secret" ];
+  systemd.services.frp.restartTriggers = [ config.age.secrets."frp-token".path ];
+  
 
 
   # Some programs need SUID wrappers, can be configured further or are

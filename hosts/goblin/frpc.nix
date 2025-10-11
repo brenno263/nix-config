@@ -1,4 +1,4 @@
-{ tokenFile }:
+tokenFile:
 {
   # your proxy name will be changed to {user}.{proxy}
   user = "goblin";
@@ -27,7 +27,7 @@
   auth.method = "token";
   auth.tokenSource.type = "file";
   # This filepath should be passed into the function
-  auth.tokenSource.file.path = "${tokenFile}"
+  auth.tokenSource.file.path = "${tokenFile}";
 
   # auth.additionalScopes specifies additional scopes to include authentication information.
   # Optional values are HeartBeats, NewWorkConns.
@@ -203,7 +203,7 @@
       # httpPassword = "admin";
       # if domain for frps is frps.com, then you can access [web01] proxy by URL http://web01.frps.com
       # subdomain = "nextcloud";
-      customDomains = ["qrimby.com", "beensoup.net"];
+      customDomains = ["nc.beensoup.net"];
       # locations is only available for http type
       # locations = ["/", "/pic"]
       # route requests to this service if http basic auto user is abc
