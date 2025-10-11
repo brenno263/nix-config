@@ -201,7 +201,7 @@
       # httpPassword = "admin";
       # if domain for frps is frps.com, then you can access [web01] proxy by URL http://web01.frps.com
       # subdomain = "nextcloud";
-      customDomains = ["qrimby.com"];
+      customDomains = ["qrimby.com", "beensoup.net"];
       # locations is only available for http type
       # locations = ["/", "/pic"]
       # route requests to this service if http basic auto user is abc
@@ -214,9 +214,9 @@
         # frpc will send a GET http request '/status' to local http service
         # http service is alive when it return 2xx http response code
         path = "/status.php";
-        intervalSeconds = 10;
+        intervalSeconds = 60;
         maxFailed = 3;
-        timeoutSeconds = 3;
+        timeoutSeconds = 5;
         # set health check headers
         httpHeaders = [
           { name = "User-Agent"; value = "FRP-Healthcheck"; }
