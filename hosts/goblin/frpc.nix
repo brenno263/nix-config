@@ -1,7 +1,5 @@
+{ tokenFile }:
 {
-  # This is templated in via sed before the service is started.
-  auth.token = "__FRP_TOKEN__";
-
   # your proxy name will be changed to {user}.{proxy}
   user = "goblin";
 
@@ -27,6 +25,10 @@
   log.disablePrintColor = false;
 
   auth.method = "token";
+  auth.tokenSource.type = "file";
+  # This filepath should be passed into the function
+  auth.tokenSource.file.path = "${tokenFile}"
+
   # auth.additionalScopes specifies additional scopes to include authentication information.
   # Optional values are HeartBeats, NewWorkConns.
   # auth.additionalScopes = ["HeartBeats", "NewWorkConns"]

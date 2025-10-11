@@ -195,13 +195,19 @@
     owner = "frp";
     group = "frp";
   };
-  services.custom-frp = {
+  services.frp = {
     enable = true;
     role = "client";
     package = pkgs.frp;
-    settings = import ./frpc.nix;
-    tokenFile = config.age.secrets."frp-token".path;
-  };
+    settings = (import ./frpc.nix) config.age.secrets."frp-token".path;
+  }
+  # services.custom-frp = {
+  #   enable = true;
+  #   role = "client";
+  #   package = pkgs.frp;
+  #   settings = import ./frpc.nix;
+  #   tokenFile = config.age.secrets."frp-token".path;
+  # };
 
 
   # Some programs need SUID wrappers, can be configured further or are
