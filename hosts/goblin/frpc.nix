@@ -196,7 +196,7 @@ tokenFile:
       name = "nextcloud";
       type = "http";
       localIP = "127.0.0.1";
-      localPort = 80;
+      localPort = 8081;
       # http username and password are safety certification for http protocol
       # if not set, you can access this customDomains without certification
       # httpUser = "admin";

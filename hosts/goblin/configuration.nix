@@ -148,6 +148,15 @@
     configureRedis = true;
     caching.redis = true;
   };
+  # Override the nginx entry so it listens on port 8081
+  services.nginx = {
+    enable = true;
+    virtualHosts."nc.beensoup.net" = {
+      listen = [
+        { addr = "127.0.0.1"; port = 8081; ssl = false; }
+      ];
+    };
+  };
 
 
   age.secrets."nextcloud-pg-pass" = {
@@ -207,6 +216,18 @@
   systemd.services.frp.serviceConfig.SupplementaryGroups = [ "frp-secret" ];
   systemd.services.frp.restartTriggers = [ config.age.secrets."frp-token".path ];
   
+
+  # services.vaultwarden = {
+  #   enable = true;
+  #   dbBackend = "sqlite";
+  #   config = {
+  #     # Config reference at https://github.com/dani-garcia/vaultwarden/blob/1.33.2/.env.template
+  #     DOMAIN = "https://vault.beensoup.net";
+  #     SIGNUPS_ALLOWED = false;
+  #   };
+  # };
+
+
 
 
   # Some programs need SUID wrappers, can be configured further or are
