@@ -26,6 +26,7 @@
     ../../modules/gaming
     # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
+    ../../modules/flatpak.nix
     ./tailscale.nix
   ];
 
@@ -205,6 +206,11 @@
       audacity
       nixfmt
       helvum
+      normcap
+      gnome-frog
+      gImageReader
+      cosmic-store
+      # vintagestory
 
       # system stuff, maybe modularize this later?
       usbutils
