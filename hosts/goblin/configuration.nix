@@ -24,6 +24,7 @@
     # Frpc custom services
     ./frpc/services/ssh-proxy.nix
     ./frpc/services/nextcloud.nix
+    ./frpc/services/foundry.nix
 
   ];
 
@@ -109,6 +110,10 @@
     ];
   };
 
+  # Enable container services with podman;
+  virtualisation.podman.enable = true;
+  virtualisation.oci-containers.backend = "podman";
+
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -149,10 +154,14 @@
     mode = "0440"; # group-readable
   };
 
+  age.secrets."foundry-env" = {
+    file = ../../secrets/foundry-env.age;
+  };
+
   # Custom FRP Services
   goblin-frpc = {
     enable = true;
-    tokenFile = config.age.secrets."frp-token".path;
+    tokenFile = config.age.secrets.frp-token.path;
     group = "frp-secret";
     services = {
       ssh-proxy = {
@@ -167,8 +176,15 @@
         };
         hostname = "nc.beensoup.net";
         datadir = "/run/media/spinning-rust/nextcloud-data";
-        dbPassFile = config.age.secrets."nextcloud-pg-pass".path;
+        dbPassFile = config.age.secrets.nextcloud-pg-pass.path;
         internalHTTPPort = 8081;
+      };
+      foundry = {
+        enable = true;
+        hostname = "foundry.beensoup.net";
+        volumePath = "/var/foundryvtt";
+        envFile = config.age.secrets.foundry-env.path;
+        internalHTTPPort = 8082;
       };
     };
   };
