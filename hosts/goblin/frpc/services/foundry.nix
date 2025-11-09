@@ -6,7 +6,6 @@
 }:
 let
   cfg = config.goblin-frpc.services.foundry;
-  volumePath = "/var/foundryvtt/data";
   inherit (lib) mkOption types;
   assertPropsSet =
     { cfg, props }:
@@ -51,7 +50,7 @@ in
 
     # ensure the volume exists
     systemd.tmpfiles.rules = [
-      "d ${volumePath} 0755 root root -"
+      "d ${cfg.volumePath} 0755 1000 1000 -"
     ];
     virtualisation.oci-containers.containers.foundry = {
       image = "felddy/foundryvtt:sha-1a166b7";
