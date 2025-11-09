@@ -2,19 +2,31 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Users
-      ../../users/b
+    # Users
+    ../../users/b
 
-      # Custom modules
-      ../../modules/nix-settings.nix
-    ];
-  
+    # Custom modules
+    ../../modules/nix-settings.nix
+
+    # Frpc bespoke custom module
+    ./frpc/goblin-frpc.nix
+    # Frpc custom services
+    ./frpc/services/ssh-proxy.nix
+    ./frpc/services/nextcloud.nix
+
+  ];
+
   userconfig.b = {
     enable = true;
     hostname = "goblin";
@@ -69,7 +81,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -91,7 +103,10 @@
   users.users.b = {
     isNormalUser = true;
     description = "Brennan Seymour";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   # Install firefox.
@@ -106,8 +121,6 @@
     vim
     git
     xscreensaver
-    nextcloud31
-    inkscape
     frp
   ];
 
@@ -123,99 +136,42 @@
     };
   };
 
-  environment.etc."nextcloud-admin-pass".text = "password";
-  services.nextcloud = {
-    enable = true;
-    package = pkgs.nextcloud31;
-    hostName = "nc.beensoup.net";
-    maxUploadSize = "10G";
-    datadir = "/run/media/spinning-rust/nextcloud-data";
-    config = {
-      adminpassFile = "/etc/nextcloud-admin-pass";
-      dbtype = "pgsql";
-      dbhost = "localhost";
-      dbuser = "nextcloud";
-      dbname = "nextcloud";
-      dbpassFile = config.age.secrets."nextcloud-pg-pass".path;
-    };
-    settings = {
-      trusted_domains = [ "192.168.5.227" ];
-      overwriteprotocol = "https";
-    };
-    extraApps = with pkgs.nextcloud31Packages.apps; {
-      inherit calendar contacts cookbook;
-    };
-    configureRedis = true;
-    caching.redis = true;
-  };
-  # Override the nginx entry so it listens on port 8081
-  services.nginx = {
-    enable = true;
-    virtualHosts."nc.beensoup.net" = {
-      listen = [
-        { addr = "127.0.0.1"; port = 8081; ssl = false; }
-      ];
-    };
-  };
-
-
   age.secrets."nextcloud-pg-pass" = {
     file = ../../secrets/nextcloud-pg-pass.age;
     owner = "nextcloud";
   };
-  systemd.services.set-nextcloud-db-pass = {
-    description = "Set password for the nextcloud user in pg";
-    after = [ "postgresql.service" "agenix.service" ];
-    wantedBy = [ "multi-user.target" ];
-    script = ''
-      PASS=$(cat ${config.age.secrets."nextcloud-pg-pass".path})
-      runuser -u postgres -- psql -U postgres -c "ALTER USER nextcloud WITH PASSWORD '$PASS';"
-    '';
-    path = [ pkgs.util-linux pkgs.postgresql_15 ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-    };
-  };
-  services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_15;
-    ensureDatabases = [
-      "nextcloud"
-    ];
-    ensureUsers = [
-      {
-        name = "nextcloud";
-	ensureDBOwnership = true;
-      }
-    ];
-  };
-
-  services.redis = {
-    enable = true;
-    unixSocket = "/run/redis/redis.sock";
-    unixSocketPerm = 770;
-  };
-   
 
   # We declare a custom group for permissioning who can read the secret file
-  users.groups."frp-secret" = {};
+  users.groups."frp-secret" = { };
   age.secrets."frp-token" = {
     file = ../../secrets/frp-token.age;
     group = "frp-secret";
     mode = "0440"; # group-readable
   };
-  services.frp = {
+
+  # Custom FRP Services
+  goblin-frpc = {
     enable = true;
-    role = "client";
-    package = pkgs.frp;
-    # frpc.nix holds a function that takes the secret file path and outputs frp client config
-    settings = (import ./frpc.nix) config.age.secrets."frp-token".path;
+    tokenFile = config.age.secrets."frp-token".path;
+    group = "frp-secret";
+    services = {
+      ssh-proxy = {
+        enable = true;
+        remotePort = 2022;
+      };
+      nextcloud = {
+        enable = true;
+        package = pkgs.nextcloud31;
+        extraApps = with pkgs.nextcloud31Packages.apps; {
+          inherit calendar contacts cookbook;
+        };
+        hostname = "nc.beensoup.net";
+        datadir = "/run/media/spinning-rust/nextcloud-data";
+        dbPassFile = config.age.secrets."nextcloud-pg-pass".path;
+        internalHTTPPort = 8081;
+      };
+    };
   };
-  # We override this property of the frp service so it has the neccessary group
-  systemd.services.frp.serviceConfig.SupplementaryGroups = [ "frp-secret" ];
-  systemd.services.frp.restartTriggers = [ config.age.secrets."frp-token".path ];
-  
 
   # services.vaultwarden = {
   #   enable = true;
@@ -227,22 +183,6 @@
   #   };
   # };
 
-
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
   # Open ports in the firewall.
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
@@ -250,7 +190,7 @@
     80
     443
   ];
-  networking.firewall.allowedUDPPorts = [];
+  networking.firewall.allowedUDPPorts = [ ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
