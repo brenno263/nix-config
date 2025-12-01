@@ -1,4 +1,10 @@
-{config, lib, pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   # GAMING
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
@@ -6,7 +12,7 @@
 
   environment.systemPackages = with pkgs; [
     mangohud
-    protonup
+    protonup-ng
     prismlauncher
     nethack
     vitetris

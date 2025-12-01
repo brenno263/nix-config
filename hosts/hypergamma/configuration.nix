@@ -94,15 +94,15 @@
   # undervolt
   services.undervolt = {
     enable = true;
-    coreOffset = -52;
-    p1 = {
-      limit = 85;
-      window = 28;
-    };
-    p2 = {
-      limit = 160;
-      window = 0.004;
-    };
+    coreOffset = -53;
+    # p1 = {
+    #   limit = 85;
+    #   window = 28;
+    # };
+    # p2 = {
+    #   limit = 160;
+    #   window = 0.004;
+    # };
   };
 
   # Enable the X11 windowing system.
