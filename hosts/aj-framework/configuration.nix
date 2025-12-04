@@ -17,6 +17,7 @@
       ../../modules/nix-settings.nix
       ../../modules/gnome
       ../../modules/gaming
+      ../../modules/flatpak.nix
     ];
   
   # Users config

@@ -41,20 +41,18 @@
 		'';
 	};
 
-	programs.git = {
-		enable = true;
-		userName = "Brennan Seymour";
-		userEmail = "brenno263@gmail.com";
-		aliases = {
-			co = "checkout";
-			st = "status";
-			br = "branch";
-			cm = "commit";
-		};
-		extraConfig = {
-			init.defaultBranch = "main";
-		};
-	};
+  programs.git.enable = true;
+  programs.git.settings = {
+    user.name = "Brennan Seymour";
+    user.email = "brenno263@gmail.com";
+    alias = {
+      co = "checkout";
+      st = "status";
+      br = "branch";
+      cm = "commit";
+    };
+    init.defaultBranch = "main";
+  };
 
 	programs.zsh = {
 		enable = true;
