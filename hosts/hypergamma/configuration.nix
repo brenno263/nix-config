@@ -94,7 +94,7 @@
   # undervolt
   services.undervolt = {
     enable = true;
-    coreOffset = -53;
+    coreOffset = -45;
     # p1 = {
     #   limit = 85;
     #   window = 28;
@@ -210,7 +210,9 @@
       gnome-frog
       gImageReader
       cosmic-store
-      # vintagestory
+      musescore
+      muse-sounds-manager
+      handbrake
 
       # system stuff, maybe modularize this later?
       usbutils
