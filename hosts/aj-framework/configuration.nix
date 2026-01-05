@@ -2,38 +2,28 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{
-  config,
-  pkgs,
-  flake-inputs,
-  ...
-}:
+{ config, pkgs, flake-inputs, ... }:
 
 {
-  imports = [
-    flake-inputs.home-manager.nixosModules.default
-    ./hardware-configuration.nix
+  imports =
+    [
+      flake-inputs.home-manager.nixosModules.default
+      ./hardware-configuration.nix
 
-    # USERS (make sure there's at least one!!)
-    ../../users/b
+      # USERS (make sure there's at least one!!)
+      ../../users/aj
 
-    # CUSTOM MODULES
-    # ../../modules/nvidia
-    ../../modules/nix-settings.nix
-    ../../modules/amdgpu.nix
-    ../../modules/gnome
-    ../../modules/cosmic.nix
-    ../../modules/gaming
-    # ../../modules/godot-3-libxcrypt.nix
-    ../../modules/gnupg.nix
-    ../../modules/flatpak.nix
-    ./tailscale.nix
-  ];
-
+      # CUSTOM MODULES
+      ../../modules/nix-settings.nix
+      ../../modules/gnome
+      ../../modules/gaming
+      ../../modules/flatpak.nix
+    ];
+  
   # Users config
-  userconfig.b = {
+  userconfig.aj = {
     enable = true;
-    hostname = "hypergamma";
+    hostname = "aj-framework";
   };
 
   home-manager = {
@@ -43,27 +33,33 @@
   };
 
   # Bootloader.
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 8;
+  boot.loader = {
+    grub = {
+      enable = true;
+      device = "nodev";
+      copyKernels = false;
+      efiSupport = true;
+      configurationLimit = 8;
+      useOSProber = true;
+    };
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
   };
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # set kernel version
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+
   # set kernel module params
   # boot.extraModprobeConfig = ''
-  # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
+    # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
   # '';
 
-  # get wireshark workin
-  programs.wireshark.enable = true;
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
-  '';
 
-  networking.hostName = "hypergamma"; # Define your hostname.
+
+  networking.hostName = "aj-framework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -92,18 +88,10 @@
   };
 
   # undervolt
-  services.undervolt = {
-    enable = true;
-    coreOffset = -45;
-    # p1 = {
-    #   limit = 85;
-    #   window = 28;
-    # };
-    # p2 = {
-    #   limit = 160;
-    #   window = 0.004;
-    # };
-  };
+  # services.undervolt = {
+  #   enable = true;
+  #   coreOffset = -50;
+  # };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -173,67 +161,35 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    with pkgs;
-    [
-      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      #  wget
-      vim
-      wget
-      curl
-      git
-      htop
-      btop
-      dig
-      traceroute
-      nmap
-      ungoogled-chromium
-      vesktop
-      brave
-      pavucontrol
-      parsec-bin
-      godot_4
-      signal-desktop-bin
-      wireshark
-      qbittorrent
-      rpcs3
-      pcsx2
-      libreoffice
-      calibre
-      obs-studio
-      networkmanagerapplet
-      pkgs.kdePackages.kdenlive
-      audacity
-      nixfmt
-      helvum
-      normcap
-      gnome-frog
-      gImageReader
-      cosmic-store
-      musescore
-      muse-sounds-manager
-      handbrake
+  environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+    vim
+    wget
+    curl
+    git
+    htop
+    btop
+    dig
+    traceroute
+    nmap
+    vesktop
+    brave
+    pavucontrol
+    signal-desktop-bin
+    libreoffice
+    calibre
+    spotify
+    google-chrome
 
-      # system stuff, maybe modularize this later?
-      usbutils
-      sysfsutils
-      libinput
-      gnumake
-      vulkan-tools
-      iputils
-    ]
-    ++ [
-      ### packages from flakes ###
-      # don't need blender-bin now that I have an amd gpu
-      # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
-      flake-inputs.agenix.packages.${flake-inputs.system}.default
-    ];
-  programs.zoom-us.enable = true;
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    exfat # for ventoy scripts
+    # system stuff, maybe modularize this later?
+    usbutils
+    sysfsutils
+    iputils
+  ] ++ [
+    ### packages from flakes ###
   ];
+  programs.zoom-us.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -262,6 +218,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  system.stateVersion = "25.05";
 }
