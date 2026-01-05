@@ -146,7 +146,6 @@
     owner = "nextcloud";
   };
 
-  # We declare a custom group for permissioning who can read the secret file
   users.groups."frp-secret" = { };
   age.secrets."frp-token" = {
     file = ../../secrets/frp-token.age;
