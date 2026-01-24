@@ -9,6 +9,9 @@
   ...
 }:
 
+let
+  hostname = "hypergamma";
+in
 {
   imports = [
     flake-inputs.home-manager.nixosModules.default
@@ -28,12 +31,14 @@
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix
     ./tailscale.nix
+
+    ./frpc/frpc.nix
   ];
 
   # Users config
   userconfig.b = {
     enable = true;
-    hostname = "hypergamma";
+    hostname = hostname;
   };
 
   home-manager = {
@@ -63,7 +68,7 @@
     SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
   '';
 
-  networking.hostName = "hypergamma"; # Define your hostname.
+  networking.hostName = hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -221,6 +226,9 @@
       gnumake
       vulkan-tools
       iputils
+      # dolphin-emu
+      archipelago
+      poptracker
     ]
     ++ [
       ### packages from flakes ###
@@ -249,6 +257,29 @@
   services.openssh.enable = true;
 
   virtualisation.docker.enable = true;
+
+  # port-forwarding config thru frpc
+  users.groups."frp-secret" = { };
+  age.secrets.frp-token = {
+    file = ../../secrets/frp-token.age;
+    group = "frp-secret";
+    mode = "0440"; # group-readable
+  };
+
+  b.frpc = {
+    enable = true;
+    hostname = hostname;
+    group = "frp-secret";
+    tokenFile = config.age.secrets.frp-token.path;
+    proxies = [ ];
+    # proxies = [
+    #   name = "archipelago";
+    #   type = "tcp";
+    #   localIP = "127.0.0.1";
+    #   localPort = 38281;
+    #   remotePort = 38281;
+    # ];
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
