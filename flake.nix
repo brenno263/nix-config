@@ -6,7 +6,7 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
     nixpkgs-stable = {
-      url = "github:nixos/nixpkgs/nixos-24.11"; 
+      url = "github:nixos/nixpkgs/nixos-25.11";
     };
     # For user packages and dotfiles
     home-manager = {
@@ -17,7 +17,7 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-    }; 
+    };
     # A modified blender that works with Nvidia's proprietary CUDA stuff
     blender-bin-flake = {
       url = "github:edolstra/nix-warez?dir=blender";
@@ -25,91 +25,101 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    home-manager,
-    agenix,
-    blender-bin-flake,
-    nixos-hardware,
-    ...
-  }@inputs: {
-    # the rec keyword allows the attrset to self-reference, obviating a let-in stmt.
-    nixosConfigurations.hypergamma = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      home-manager,
+      agenix,
+      blender-bin-flake,
+      nixos-hardware,
+      ...
+    }@inputs:
+    {
+      # the rec keyword allows the attrset to self-reference, obviating a let-in stmt.
+      nixosConfigurations.hypergamma = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
 
-      # specialArgs are added to the inputs of all modules
-      specialArgs = {
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-          allowUnfree = true;
+        # specialArgs are added to the inputs of all modules
+        specialArgs = {
+          pkgs-stable = import nixpkgs-stable {
+            inherit system;
+            allowUnfree = true;
+          };
+
+          # make flake inputs available why not
+          flake-inputs = inputs // {
+            inherit system;
+          };
         };
-
-        # make flake inputs available why not
-        flake-inputs = inputs // {inherit system;};
+        modules = [
+          ./hosts/hypergamma/configuration.nix
+          agenix.nixosModules.default
+        ];
       };
-      modules = [
-        ./hosts/hypergamma/configuration.nix
-        agenix.nixosModules.default
-      ];
+
+      nixosConfigurations.goblin = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+
+        # specialArgs are added to the inputs of all modules
+        specialArgs = {
+          pkgs-stable = import nixpkgs-stable {
+            inherit system;
+            allowUnfree = true;
+          };
+          # make flake inputs available why not
+          flake-inputs = inputs // {
+            inherit system;
+          };
+        };
+        modules = [
+          ./hosts/goblin/configuration.nix
+          agenix.nixosModules.default
+        ];
+      };
+
+      nixosConfigurations.aj-framework = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+
+        # specialArgs are added to the inputs of all modules
+        specialArgs = {
+          pkgs-stable = import nixpkgs-stable {
+            inherit system;
+            allowUnfree = true;
+          };
+
+          # make flake inputs available why not
+          flake-inputs = inputs // {
+            inherit system;
+          };
+        };
+        modules = [
+          ./hosts/aj-framework/configuration.nix
+          nixos-hardware.nixosModules.framework-12th-gen-intel
+        ];
+      };
+
+      # the rec keyword allows the attrset to self-reference, obviating a let-in stmt.
+      nixosConfigurations.lucy = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+
+        # specialArgs are added to the inputs of all modules
+        specialArgs = {
+          pkgs-stable = import nixpkgs-stable {
+            inherit system;
+            allowUnfree = true;
+          };
+          # make flake inputs available why not
+          flake-inputs = inputs // {
+            inherit system;
+          };
+        };
+        modules = [
+          ./hosts/lucy/configuration.nix
+          agenix.nixosModules.default
+        ];
+      };
+
     };
-
-    nixosConfigurations.goblin = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
-
-      # specialArgs are added to the inputs of all modules
-      specialArgs = {
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-          allowUnfree = true;
-        };
-        # make flake inputs available why not
-        flake-inputs = inputs // {inherit system;};
-      };
-      modules = [
-        ./hosts/goblin/configuration.nix
-        agenix.nixosModules.default
-      ];
-    };
-
-    nixosConfigurations.aj-framework = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
-
-      # specialArgs are added to the inputs of all modules
-      specialArgs = {
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-          allowUnfree = true;
-        };
-
-        # make flake inputs available why not
-        flake-inputs = inputs // {inherit system;};
-      };
-      modules = [
-        ./hosts/aj-framework/configuration.nix
-        nixos-hardware.nixosModules.framework-12th-gen-intel
-      ];
-    };    
-
-    # the rec keyword allows the attrset to self-reference, obviating a let-in stmt.
-    nixosConfigurations.lucy = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
-
-      # specialArgs are added to the inputs of all modules
-      specialArgs = {
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-          allowUnfree = true;
-        };
-        # make flake inputs available why not
-        flake-inputs = inputs // {inherit system;};
-      };
-      modules = [
-        ./hosts/lucy/configuration.nix
-        agenix.nixosModules.default
-      ];
-    };
-
-  };
 }

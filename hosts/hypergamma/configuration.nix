@@ -5,6 +5,7 @@
 {
   config,
   pkgs,
+  pkgs-stable,
   flake-inputs,
   ...
 }:
@@ -26,11 +27,13 @@ in
     ../../modules/amdgpu.nix
     ../../modules/gnome
     ../../modules/cosmic.nix
+    # ../../modules/hyprland.nix
     ../../modules/gaming
     # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix
     ./tailscale.nix
+    ../../modules/nix-ld.nix
 
     ./frpc/frpc.nix
   ];
@@ -198,7 +201,7 @@ in
       pavucontrol
       parsec-bin
       godot_4
-      signal-desktop-bin
+      # pkgs-stable.signal-desktop-bin
       wireshark
       qbittorrent
       rpcs3
@@ -237,11 +240,6 @@ in
       flake-inputs.agenix.packages.${flake-inputs.system}.default
     ];
   programs.zoom-us.enable = true;
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    exfat # for ventoy scripts
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -39,10 +39,10 @@ in
       pkgs.frp
     ];
 
-    services.frp = {
+    services.frp.package = pkgs.frp;
+    services.frp.instances.default = {
       enable = true;
       role = "client";
-      package = pkgs.frp;
       settings = {
         # your proxy name will be changed to {user}.{proxy}
         user = "goblin";
@@ -82,7 +82,8 @@ in
       };
     };
     # We override this property of the frp service so it has the neccessary group
-    systemd.services.frp.serviceConfig.SupplementaryGroups = [ cfg.group ];
-    systemd.services.frp.restartTriggers = [ cfg.tokenFile ];
+    # It's important that we use the instance name to target the right service.
+    # Like so: "frp-<instance_name>"
+    systemd.services.frp-default.serviceConfig.SupplementaryGroups = [ cfg.group ];
   };
 }
