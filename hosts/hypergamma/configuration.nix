@@ -27,7 +27,7 @@ in
     ../../modules/amdgpu.nix
     ../../modules/gnome
     ../../modules/cosmic.nix
-    # ../../modules/hyprland.nix
+    ../../modules/hyprland.nix
     ../../modules/gaming
     # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
@@ -221,6 +221,9 @@ in
       musescore
       muse-sounds-manager
       handbrake
+      trashy
+      archipelago
+      poptracker
 
       # system stuff, maybe modularize this later?
       usbutils
@@ -229,9 +232,6 @@ in
       gnumake
       vulkan-tools
       iputils
-      # dolphin-emu
-      archipelago
-      poptracker
     ]
     ++ [
       ### packages from flakes ###
