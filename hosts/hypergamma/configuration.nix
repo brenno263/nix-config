@@ -25,10 +25,10 @@ in
     # ../../modules/nvidia
     ../../modules/nix-settings.nix
     ../../modules/amdgpu.nix
-    ../../modules/gnome
+    ../../modules/gnome.nix
     ../../modules/cosmic.nix
     ../../modules/hyprland.nix
-    ../../modules/gaming
+    ../../modules/gaming.nix
     # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix

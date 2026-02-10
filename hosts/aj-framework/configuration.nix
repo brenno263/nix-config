@@ -2,24 +2,28 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, flake-inputs, ... }:
+{
+  config,
+  pkgs,
+  flake-inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      flake-inputs.home-manager.nixosModules.default
-      ./hardware-configuration.nix
+  imports = [
+    flake-inputs.home-manager.nixosModules.default
+    ./hardware-configuration.nix
 
-      # USERS (make sure there's at least one!!)
-      ../../users/aj
+    # USERS (make sure there's at least one!!)
+    ../../users/aj
 
-      # CUSTOM MODULES
-      ../../modules/nix-settings.nix
-      ../../modules/gnome
-      ../../modules/gaming
-      ../../modules/flatpak.nix
-    ];
-  
+    # CUSTOM MODULES
+    ../../modules/nix-settings.nix
+    ../../modules/gnome.nix
+    ../../modules/gaming.nix
+    ../../modules/flatpak.nix
+  ];
+
   # Users config
   userconfig.aj = {
     enable = true;
@@ -51,13 +55,10 @@
   # set kernel version
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-
   # set kernel module params
   # boot.extraModprobeConfig = ''
-    # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
+  # options usbhid mousepoll=8 jspoll=8 quirks=0x045e:0x028e:0x0400
   # '';
-
-
 
   networking.hostName = "aj-framework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -161,34 +162,37 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    vim
-    wget
-    curl
-    git
-    htop
-    btop
-    dig
-    traceroute
-    nmap
-    vesktop
-    brave
-    pavucontrol
-    signal-desktop-bin
-    libreoffice
-    calibre
-    spotify
-    google-chrome
+  environment.systemPackages =
+    with pkgs;
+    [
+      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      #  wget
+      vim
+      wget
+      curl
+      git
+      htop
+      btop
+      dig
+      traceroute
+      nmap
+      vesktop
+      brave
+      pavucontrol
+      signal-desktop-bin
+      libreoffice
+      calibre
+      spotify
+      google-chrome
 
-    # system stuff, maybe modularize this later?
-    usbutils
-    sysfsutils
-    iputils
-  ] ++ [
-    ### packages from flakes ###
-  ];
+      # system stuff, maybe modularize this later?
+      usbutils
+      sysfsutils
+      iputils
+    ]
+    ++ [
+      ### packages from flakes ###
+    ];
   programs.zoom-us.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are

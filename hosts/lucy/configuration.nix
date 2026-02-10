@@ -2,21 +2,25 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, flake-inputs, ... }:
+{
+  config,
+  pkgs,
+  flake-inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      flake-inputs.home-manager.nixosModules.default
-      ./hardware-configuration.nix
+  imports = [
+    flake-inputs.home-manager.nixosModules.default
+    ./hardware-configuration.nix
 
-      # USERS (make sure there's at least one!!)
-      ../../users/b
+    # USERS (make sure there's at least one!!)
+    ../../users/b
 
-      # CUSTOM MODULES
-      ../../modules/gnome
-      ../../modules/nix-settings.nix
-    ];
+    # CUSTOM MODULES
+    ../../modules/gnome.nix
+    ../../modules/nix-settings.nix
+  ];
 
   # Users config
   userconfig.b = {
@@ -116,7 +120,7 @@
     curl
     git
     btop
-    
+
     # gui apps
     qbittorrent
     filezilla
