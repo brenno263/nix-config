@@ -29,6 +29,24 @@ in
     hyprland-qtutils # small bunch of utility applications that hyprland might invoke (stuffs like dialogs and popups)
   ];
 
+  xdg.configFile."hypr/xdph.conf".text = ''
+    screencopy {
+      max_fps = 60
+      allow_token_by_default = true
+    }
+  '';
+
+  programs.hyprpanel = {
+    enable = true;
+    systemd.enable = true;
+    # settings = { };
+  };
+
+  home.file."${config.xdg.configHome}/hyprpanel" = {
+    source = ./hyprpanel;
+    recursive = true;
+  };
+
   services.hyprpaper = {
     enable = true;
     settings = {
@@ -68,6 +86,7 @@ in
       exec-once = [
         "systemctl --user enable --now hyprpaper.service"
         "hypridle"
+        "hyprpanel"
       ];
 
       bind = [
@@ -129,7 +148,7 @@ in
         "$mod, Delete, exec, playerctl play-pause"
         "$mod, Home, exec, playerctl next"
         "$mod, End, exec, playerctl previous"
-        "$mod, Prior, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK 5%+"
+        "$mod, Prior, exec, hyprpanel "
         "$mod, Next, exec, wpctl set-volume @DEFAULT_AUDIO_SINK 5%-"
       ];
 
@@ -169,7 +188,7 @@ in
       ];
 
       general = {
-        gaps_in = "5";
+        gaps_in = "3";
         gaps_out = "5";
       };
 

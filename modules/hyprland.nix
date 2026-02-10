@@ -15,9 +15,19 @@
   # Hint electron apps to use wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  # Makes screensharing work
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = with pkgs; [
+      # Makes screensharing work
+      xdg-desktop-portal-hyprland
+      # Provides filepicker
+      xdg-desktop-portal-gtk
+    ];
+  };
+
+  # Required for screensharing
+  services.pipewire = {
+    enable = true;
+    wireplumber.enable = true;
   };
 }

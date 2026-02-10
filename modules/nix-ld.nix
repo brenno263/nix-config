@@ -28,19 +28,19 @@
       systemd
 
       # My own additions
-      xorg.libXcomposite
-      xorg.libXtst
-      xorg.libXrandr
-      xorg.libXext
-      xorg.libX11
-      xorg.libXfixes
+      libxcomposite
+      libxtst
+      libxrandr
+      libxext
+      libx11
+      libxfixes
       libGL
       libva
       pipewire
-      xorg.libxcb
-      xorg.libXdamage
-      xorg.libxshmfence
-      xorg.libXxf86vm
+      libxcb
+      libxdamage
+      libxshmfence
+      libxxf86vm
       libelf
 
       # Required
@@ -59,14 +59,14 @@
       zenity
       # glibc_multi.bin # Seems to cause issue in ARM
 
-      # # Without these it silently fails
-      xorg.libXinerama
-      xorg.libXcursor
-      xorg.libXrender
-      xorg.libXScrnSaver
-      xorg.libXi
-      xorg.libSM
-      xorg.libICE
+      # Without these some things silently fail
+      libxinerama
+      libxcursor
+      libxrender
+      libxscrnsaver
+      libxi
+      libsm
+      libice
       gnome2.GConf
       nspr
       nss
@@ -76,7 +76,6 @@
       libusb1
       dbus-glib
       ffmpeg
-      # Only libraries are needed from those two
       libudev0-shim
 
       # needed to run unity
@@ -92,8 +91,8 @@
       # other issue: (Unity:377230): GLib-GIO-CRITICAL **: 21:09:04.706: g_dbus_proxy_call_sync_internal: assertion 'G_IS_DBUS_PROXY (proxy)' failed
 
       # Verified games requirements
-      xorg.libXt
-      xorg.libXmu
+      libxt
+      libxmu
       libogg
       libvorbis
       SDL
@@ -127,9 +126,9 @@
       libgcrypt
       libvpx
       librsvg
-      xorg.libXft
+      libxft
       libvdpau
-      # ...
+
       # Some more libraries that I needed to run programs
       pango
       cairo
@@ -140,11 +139,6 @@
       dbus
       alsa-lib
       expat
-      # for blender
-      libxkbcommon
-
-      libxcrypt-legacy # For natron
-      libGLU # For natron
 
       # Appimages need fuse, e.g. https://musescore.org/fr/download/musescore-x86_64.AppImage
       fuse
