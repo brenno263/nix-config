@@ -9,7 +9,6 @@
   flake-inputs,
   ...
 }:
-
 let
   hostname = "hypergamma";
 in
@@ -32,10 +31,11 @@ in
     # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix
-    ./tailscale.nix
     ../../modules/nix-ld.nix
 
-    ./frpc/frpc.nix
+    # local modules
+    ./tailscale.nix
+    ./frpc.nix
   ];
 
   # Users config

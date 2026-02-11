@@ -15,7 +15,6 @@ in
     hyprpicker # color picker from your screen
     hypridle # idle management  daemon
     hyprlock # screen locker
-    xdg-desktop-portal-hyprland # lets other applications communicate with the compositor through D-Bus
     hyprsunset # blue light filter, undetected in screenshots
     hyprpolkitagent # polkit authentication daemon, allows GUI applications for elevated permissions
     hyprsysteminfo # GUI application that displays system information
