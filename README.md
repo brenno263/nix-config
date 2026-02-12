@@ -6,6 +6,30 @@ This configuration was made to be a single place to configure:
 - multiple users
 - reusable modules
 
+# Installation
+
+If you're starting from square zero on a new host, here's how to get started with this config.
+
+## Installing NixOS itself
+
+Visit https://nixos.org/ and download a bootable ISO file. Load it on a USB drive. Plug the drive into your computer and reboot. If you select the USB drive as a boot option in the BIOS, you'll boot into the live environment, which has a NixOS installer.
+
+> When partitioning, NixOS needs a pretty big boot partition. I use 1G and it works well. Anything under 500M will likely have issues. You _can_ reuse an existing boot partition, and NixOS will safely install its bootloader alongside anything else.
+
+> If you already have a too-small boot partition and can't change it easily, check out the `aj-framework` host for an example of how to configure GRUB to operate in a way that minimizes storage usage. That host gets away with a 200M boot partition that way.
+
+## Prepping a Host with your fresh config
+
+First, copy an existing host for use, and make sure to add a nixosConfiguration for it in the `flake.nix`.
+
+Important! Copy your system's generated `hardware-configuration` over, don't reuse one! This file is generated when NixOS installs, and it has some important hardware-specific config, like mounting drives.
+
+If you want to use a User Module, copy one of those too. If not, make sure you have a declaration for a user of some sort! Check the Users section below for an example.
+
+## Applying this configuration
+
+To apply the config, use `nixos-rebuild --flake $HOME/path-to-config/nix-config#my-hostname`. The path points to the directory with the `flake.nix` file, and the part after the hash `#` specifies which hostname to pick out of the `flake.nix` to determine what configuration to use. You might want to use Home Manager to make an alias for this!
+
 # Anatomy
 
 ## `flake.nix`
@@ -28,7 +52,7 @@ Every host should also have a `hardware-configuration.nix`. Imported by the main
 
 Besides those two, any other config specific to a host can go in the directory! Feel free to take a peek at what already exists for some examples of what you can do.
 
-## Modules
+## Generic Modules
 
 In the `modules` directory, there are plenty of modules holding chunks of configuration for different things. For example, `gnome.nix` turns on the GNOME desktop environment, installs a few GNOME plugins, and disables a few bits of builtin GNOME software that I don't usually want around.
 
@@ -65,7 +89,7 @@ let
 in { environment.variables = { MY_SECRET = cfg.secret }; };
 ```
 
-# User Modules
+## User Modules
 
 If you want the same user to have the same config across multiple hosts, use a User module! This is for configuring everything that's user-specific and host-agnostic. Much of these modules will be Home Manager config.
 
@@ -84,21 +108,25 @@ users.users.johnnytest = {
 };
 ```
 
-## Home Manager
+### Home Manager
 
 Home Manager (HM) can be used _separately_ from NixOS, but I like to keep it in the same place as my system config. So I use the HM flake and the HM NixOS module.
 
 ```nix
-# in `flake.nix`, I pass flake-inputs as a specialArg to
+# in `flake.nix`, I pass flake-inputs as a specialArg to make it available to HM modules
 { pkgs, flake-inputs, ...}
 {
 	imports = [
 		flake-inputs.home-manager.nixosModules.default
 	];
 
-	# After importing the home-manager nixosModule, we can simply give the home-manager option an HM config.
+	# After importing the home-manager nixosModule, we can simply pass the home-manager option an HM config.
 	home-manager = {
 		users.b = ./home.nix
 	}
 }
 ```
+
+Similar to NixOS, HM works with modules. This lets you split up your config and import whatever bits you like from wherever.
+
+Check out the [home manager options search](https://home-manager-options.extranix.com/) for an idea of what options are available.
