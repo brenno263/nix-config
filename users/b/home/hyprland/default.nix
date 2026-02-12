@@ -6,7 +6,7 @@
   ...
 }:
 let
-  wallpaper-file = ./wallpapers/geo-colors.png;
+  wallpaper-file = ./geo-colors.png;
 in
 {
   home.packages = with pkgs; [

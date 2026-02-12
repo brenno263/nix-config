@@ -1,11 +1,18 @@
-{config, lib, pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
 
-	imports = [
-		{
-			# apply a special overlay providing a modified godot3
-			nixpkgs.overlays = [
+  imports = [
+    {
+      # apply a special overlay providing a modified godot3
+      nixpkgs.overlays = [
         (self: super: {
-            godot-libxcrypt = super.godot3.overrideAttrs (finalAttrs: previousAttrs: rec {
+          godot-libxcrypt = super.godot3.overrideAttrs (
+            finalAttrs: previousAttrs: rec {
               buildInputs = previousAttrs.buildInputs ++ [ super.libxcrypt-legacy ];
               installPhase = ''
                 mkdir -p "$out/bin"
@@ -33,14 +40,14 @@
                 substituteInPlace "$out/share/applications/org.godotengine.Godot.desktop" \
                 --replace "Name=Godot Engine" "Name=Godot 3 + LibXCrypt"
               '';
-            });
-          }
-        )
+            }
+          );
+        })
       ];
-		}
-	];
+    }
+  ];
 
-	environment.systemPackages = [
-		pkgs.godot-libxcrypt
-	];
+  environment.systemPackages = [
+    pkgs.godot-libxcrypt
+  ];
 }

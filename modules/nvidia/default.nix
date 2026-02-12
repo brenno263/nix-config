@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   imports = [
     ./vaapi.nix
   ];
@@ -17,13 +18,13 @@
     modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-		powerManagement.enable = false;
+    powerManagement.enable = false;
 
-		# Fine-grained power management. Turns off GPU when not in use.
-		powerManagement.finegrained = false;
+    # Fine-grained power management. Turns off GPU when not in use.
+    powerManagement.finegrained = false;
 
     # Use the NVidia open source kernel module (currently a little buggy so false)
-		open = false;
+    open = false;
 
     # Sometimes reduces performance, but helps with TEARING (my mortal enemy)
     forceFullCompositionPipeline = true;
@@ -36,7 +37,7 @@
   };
 
   # Load Nvidia driver for X and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   boot.extraModprobeConfig =
     "options nvidia "

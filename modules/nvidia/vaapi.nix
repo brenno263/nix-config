@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.hardware.nvidia.vaapi;
-in {
+in
+{
   options.hardware.nvidia.vaapi = with lib.types; {
     enable = lib.mkEnableOption "vaapi";
 
@@ -31,16 +33,15 @@ in {
 
   # See https://github.com/elFarto/nvidia-vaapi-driver#configuration
   config = lib.mkIf cfg.enable {
-    environment.variables =
-      {
-        NVD_BACKEND = "direct";
-      }
-      // lib.optionalAttrs (cfg.maxInstances != null) {
-        NVD_MAX_INSTANCES = toString cfg.maxInstances;
-      }
-      // lib.optionalAttrs cfg.firefox.enable {
-        MOZ_DISABLE_RDD_SANDBOX = "1";
-      };
+    environment.variables = {
+      NVD_BACKEND = "direct";
+    }
+    // lib.optionalAttrs (cfg.maxInstances != null) {
+      NVD_MAX_INSTANCES = toString cfg.maxInstances;
+    }
+    // lib.optionalAttrs cfg.firefox.enable {
+      MOZ_DISABLE_RDD_SANDBOX = "1";
+    };
 
     # TODO(tlater): Find a way to properly integrate this so we can
     # upstream it.

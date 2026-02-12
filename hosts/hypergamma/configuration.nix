@@ -21,14 +21,12 @@ in
     ../../users/b
 
     # CUSTOM MODULES
-    # ../../modules/nvidia
     ../../modules/nix-settings.nix
     ../../modules/amdgpu.nix
     ../../modules/gnome.nix
     ../../modules/cosmic.nix
     ../../modules/hyprland.nix
     ../../modules/gaming.nix
-    # ../../modules/godot-3-libxcrypt.nix
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix
     ../../modules/nix-ld.nix
@@ -72,11 +70,6 @@ in
   '';
 
   networking.hostName = hostname; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -138,30 +131,13 @@ in
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.b = {
-  #   isNormalUser = true;
-  #   description = "Brennan Seymour";
-  #   extraGroups = [ "networkmanager" "wheel" ];
-  #   packages = with pkgs; [
-  #     neovim
-  #   ];
-  # };
-
-  # Enable automatic login for the user.
+  ## Enable automatic login for the user.
   #services.displayManager.autoLogin.enable = true;
   #services.displayManager.autoLogin.user = "b";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  #
+  ## Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   #systemd.services."getty@tty1".enable = false;
   #systemd.services."autovt@tty1".enable = false;
 
@@ -171,12 +147,6 @@ in
   # Allow unfree packages
   nixpkgs.config = {
     allowUnfree = true;
-
-    # setting cuda support allows us to build all kind of apps
-    # with gpu acceleration. Unfortunately they're not cached,
-    # so this induces a LOT of compilation :/
-    # I'm leaving it off unless I decide I really need it.
-    # cudaSupport = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -184,8 +154,6 @@ in
   environment.systemPackages =
     with pkgs;
     [
-      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      #  wget
       vim
       wget
       curl
@@ -201,7 +169,6 @@ in
       pavucontrol
       parsec-bin
       godot_4
-      # pkgs-stable.signal-desktop-bin
       wireshark
       qbittorrent
       rpcs3
@@ -235,25 +202,13 @@ in
     ]
     ++ [
       ### packages from flakes ###
-      # don't need blender-bin now that I have an amd gpu
-      # flake-inputs.blender-bin-flake.packages.${flake-inputs.system}.default
       flake-inputs.agenix.packages.${flake-inputs.system}.default
     ];
   programs.zoom-us.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  # Services
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
   virtualisation.docker.enable = true;
 
   # port-forwarding config thru frpc
@@ -263,7 +218,6 @@ in
     group = "frp-secret";
     mode = "0440"; # group-readable
   };
-
   b.frpc = {
     enable = true;
     hostname = hostname;
@@ -279,12 +233,6 @@ in
     # ];
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -292,5 +240,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }

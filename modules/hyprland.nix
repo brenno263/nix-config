@@ -5,7 +5,6 @@
   ...
 }:
 {
-  # Enable the COSMIC Desktop Environment.
   programs.hyprland = {
     enable = true;
     withUWSM = true;

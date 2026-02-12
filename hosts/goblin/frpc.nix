@@ -1,5 +1,4 @@
-tokenFile:
-{
+tokenFile: {
   # your proxy name will be changed to {user}.{proxy}
   user = "goblin";
 
@@ -147,7 +146,6 @@ tokenFile:
   # metadatas.var1 = "abc";
   # metadatas.var2 = "123";
 
-
   # Include other config files
   # includes = [ "./confd/my-file.toml" ];
 
@@ -203,7 +201,7 @@ tokenFile:
       # httpPassword = "admin";
       # if domain for frps is frps.com, then you can access [web01] proxy by URL http://web01.frps.com
       # subdomain = "nextcloud";
-      customDomains = ["nc.beensoup.net"];
+      customDomains = [ "nc.beensoup.net" ];
       # locations is only available for http type
       # locations = ["/", "/pic"]
       # route requests to this service if http basic auto user is abc
@@ -221,8 +219,14 @@ tokenFile:
         timeoutSeconds = 5;
         # set health check headers
         httpHeaders = [
-          { name = "User-Agent"; value = "FRP-Healthcheck"; }
-          { name = "x-from-where"; value = "frp"; }
+          {
+            name = "User-Agent";
+            value = "FRP-Healthcheck";
+          }
+          {
+            name = "x-from-where";
+            value = "frp";
+          }
         ];
 
       };
