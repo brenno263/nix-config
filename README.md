@@ -83,7 +83,7 @@ These are made to be reusable! While a little opinionated, these should never in
 
 Often this config-referencing is streamlined with a simple let-in statement like so:
 
-```
+```nix
 let
 	cfg = config.a.b.c.my-module
 in { environment.variables = { MY_SECRET = cfg.secret }; };
