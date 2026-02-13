@@ -163,6 +163,9 @@
         envFile = config.age.secrets.foundry-env.path;
         internalHTTPPort = 8082;
       };
+      matrix = {
+        enable = true;
+      };
     };
   };
 

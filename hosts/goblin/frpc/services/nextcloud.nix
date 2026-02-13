@@ -15,6 +15,10 @@ let
     }) props;
 in
 {
+  imports = [
+    ./postgresql.nix
+  ];
+
   options.goblin-frpc.services.nextcloud = {
     enable = lib.mkEnableOption "Enable the nextcloud service";
     package = mkOption {
@@ -152,8 +156,6 @@ in
       };
     };
     services.postgresql = {
-      enable = true;
-      package = pkgs.postgresql_15;
       ensureDatabases = [
         "nextcloud"
       ];
