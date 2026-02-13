@@ -25,7 +25,7 @@
     ./frpc/services/ssh-proxy.nix
     ./frpc/services/nextcloud.nix
     ./frpc/services/foundry.nix
-
+    ./frpc/services/matrix.nix
   ];
 
   userconfig.b = {
