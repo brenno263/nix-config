@@ -21,6 +21,7 @@
       xdg-desktop-portal-hyprland
       # Provides filepicker
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
     ];
   };
 

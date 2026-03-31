@@ -144,9 +144,12 @@ in
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages
   nixpkgs.config = {
     allowUnfree = true;
+    # Allow some insecure packages (be very careful about these!)
+    permittedInsecurePackages = [
+      "olm-3.2.16"
+    ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -191,6 +194,9 @@ in
       trashy
       archipelago
       poptracker
+      element-desktop
+      nheko
+      lumafly
 
       # system stuff, maybe modularize this later?
       usbutils
@@ -199,6 +205,11 @@ in
       gnumake
       vulkan-tools
       iputils
+
+      # jellyfin
+      jellyfin
+      jellyfin-web
+      jellyfin-ffmpeg
     ]
     ++ [
       ### packages from flakes ###
@@ -210,6 +221,13 @@ in
 
   services.openssh.enable = true;
   virtualisation.docker.enable = true;
+
+  services.jellyfin = {
+    enable = true;
+    user = "b";
+    group = "users";
+    dataDir = "/home/b/jellyfin";
+  };
 
   # port-forwarding config thru frpc
   users.groups."frp-secret" = { };
@@ -223,7 +241,23 @@ in
     hostname = hostname;
     group = "frp-secret";
     tokenFile = config.age.secrets.frp-token.path;
-    proxies = [ ];
+    proxies = [
+      {
+        name = "jellyfin";
+        customDomains = [ "jelly.bsoup.net" ];
+        type = "http";
+        localIP = "127.0.0.1";
+        localPort = 8096;
+      }
+      {
+        name = "factorio";
+        # customDomains = [ "ap.bsoup.net" ];
+        type = "udp";
+        localIP = "127.0.0.1";
+        localPort = 34197;
+        remotePort = 34197;
+      }
+    ];
     # proxies = [
     #   name = "archipelago";
     #   type = "tcp";

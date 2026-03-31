@@ -33,6 +33,8 @@ in
         "wheel"
         "wireshark"
         "docker"
+        "render"
+        "video"
       ];
       shell = pkgs.zsh;
       packages = with pkgs; [
