@@ -105,6 +105,7 @@
       flac
       freeglut
       libjpeg
+      libjpeg8
       libpng
       libpng12
       libsamplerate

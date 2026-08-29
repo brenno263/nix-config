@@ -23,6 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Realtime Audio Production Helper
+    musnix = {
+      url = "github:musnix/musnix";
+    };
+
     # Custom hardware tweaks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
@@ -43,7 +48,7 @@
             # Expose stable nixpkgs
             pkgs-stable = import inputs.nixpkgs-stable {
               inherit system;
-              allowUnfree = true;
+              config.allowUnfree = true;
             };
 
             # Make flake inputs and system available thru catchall "flake-inputs"
@@ -60,6 +65,7 @@
           modules = [
             ./hosts/hypergamma/configuration.nix
             inputs.agenix.nixosModules.default
+            inputs.musnix.nixosModules.default
           ];
         };
 

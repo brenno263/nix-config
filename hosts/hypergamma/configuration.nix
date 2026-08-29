@@ -30,6 +30,7 @@ in
     ../../modules/gnupg.nix
     ../../modules/flatpak.nix
     ../../modules/nix-ld.nix
+    ../../modules/audio-production.nix
 
     # local modules
     ./tailscale.nix
@@ -129,8 +130,7 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
   };
 
   ## Enable automatic login for the user.
@@ -155,8 +155,7 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
-    with pkgs;
-    [
+    (with pkgs; [
       vim
       wget
       curl
@@ -174,7 +173,6 @@ in
       godot_4
       wireshark
       qbittorrent
-      rpcs3
       pcsx2
       libreoffice
       calibre
@@ -183,7 +181,7 @@ in
       pkgs.kdePackages.kdenlive
       audacity
       nixfmt
-      helvum
+      # helvum
       normcap
       gnome-frog
       gImageReader
@@ -197,6 +195,8 @@ in
       element-desktop
       nheko
       lumafly
+      dhewm3
+      filezilla
 
       # system stuff, maybe modularize this later?
       usbutils
@@ -210,7 +210,10 @@ in
       jellyfin
       jellyfin-web
       jellyfin-ffmpeg
-    ]
+    ])
+    ++ (with pkgs-stable; [
+      rpcs3
+    ])
     ++ [
       ### packages from flakes ###
       flake-inputs.agenix.packages.${flake-inputs.system}.default
@@ -249,14 +252,13 @@ in
         localIP = "127.0.0.1";
         localPort = 8096;
       }
-      {
-        name = "factorio";
-        # customDomains = [ "ap.bsoup.net" ];
-        type = "udp";
-        localIP = "127.0.0.1";
-        localPort = 34197;
-        remotePort = 34197;
-      }
+      # {
+      #   name = "factorio";
+      #   type = "udp";
+      #   localIP = "127.0.0.1";
+      #   localPort = 34197;
+      #   remotePort = 34197;
+      # }
     ];
     # proxies = [
     #   name = "archipelago";
