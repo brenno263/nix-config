@@ -230,6 +230,22 @@ in
     user = "b";
     group = "users";
     dataDir = "/home/b/jellyfin";
+    # 192.168.1.11:8096
+    openFirewall = true;
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      # 80
+      # 443
+    ];
+    allowedUDPPortRanges = [
+      # {
+      #   from = 4000;
+      #   to = 4007;
+      # }
+    ];
   };
 
   # port-forwarding config thru frpc
