@@ -16,7 +16,7 @@
   # Makes sure flathub is available at boot
   systemd.services.flatpak-repo-setup = {
     wantedBy = [ "multi-user.target" ];
-    wants = [ "network-online.target" ];
+    requires = [ "network-online.target" ];
     path = [ pkgs.flatpak ];
     script = ''
       flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

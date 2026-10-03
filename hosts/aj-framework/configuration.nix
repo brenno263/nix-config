@@ -133,7 +133,6 @@
       vesktop
       brave
       pavucontrol
-      signal-desktop-bin
       libreoffice
       calibre
       spotify

@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    ./hyprland
+    # ./hyprland
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -23,8 +23,6 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "23.11";
-
-  home.file.test1.text = "foobar";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -50,6 +48,8 @@
 
   programs.neovim = {
     enable = true;
+    withRuby = false;
+    withPython3 = false;
     extraConfig = ''
       			set number relativeNumber
       		'';

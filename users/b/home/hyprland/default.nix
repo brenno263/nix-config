@@ -35,16 +35,16 @@ in
     }
   '';
 
-  programs.hyprpanel = {
-    enable = true;
-    systemd.enable = true;
-    # settings = { };
-  };
+  # programs.hyprpanel = {
+  #   enable = true;
+  #   systemd.enable = true;
+  #   # settings = { };
+  # };
 
-  home.file."${config.xdg.configHome}/hyprpanel" = {
-    source = ./hyprpanel;
-    recursive = true;
-  };
+  # home.file."${config.xdg.configHome}/hyprpanel" = {
+  #   source = ./hyprpanel;
+  #   recursive = true;
+  # };
 
   services.hyprpaper = {
     enable = true;
