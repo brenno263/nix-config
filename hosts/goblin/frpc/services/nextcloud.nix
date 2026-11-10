@@ -63,7 +63,7 @@ in
 
     environment.systemPackages = [ cfg.package ];
 
-    environment.etc."nextcloud-admin-pass".text = "password";
+    # environment.etc."nextcloud-admin-pass".text = "password";
     services.nextcloud = {
       enable = true;
       package = cfg.package;
@@ -71,7 +71,7 @@ in
       maxUploadSize = "10G";
       datadir = cfg.datadir;
       config = {
-        adminpassFile = "/etc/nextcloud-admin-pass";
+        # adminpassFile = "/etc/nextcloud-admin-pass";
         dbtype = "pgsql";
         dbhost = "localhost";
         dbuser = "nextcloud";
