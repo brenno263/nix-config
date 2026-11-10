@@ -197,6 +197,7 @@ in
       lumafly
       dhewm3
       filezilla
+      bun
 
       # system stuff, maybe modularize this later?
       usbutils
