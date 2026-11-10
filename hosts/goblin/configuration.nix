@@ -26,6 +26,7 @@
     ./frpc/services/nextcloud.nix
     ./frpc/services/foundry.nix
     ./frpc/services/matrix.nix
+    ./frpc/services/rocketchat.nix
   ];
 
   userconfig.b = {
@@ -175,9 +176,9 @@
         passFile = config.age.secrets.matrix-pass.path;
       };
       rocketchat = {
-        enable = true;
+        enable = false;
         hostname = "rc.bsoup.net";
-        internahHTTPPort = 8084;
+        internalHTTPPort = 8084;
       };
     };
   };
