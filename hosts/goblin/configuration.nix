@@ -153,8 +153,8 @@
       };
       nextcloud = {
         enable = true;
-        package = pkgs.nextcloud33;
-        extraApps = with pkgs.nextcloud33Packages.apps; {
+        package = pkgs.nextcloud34;
+        extraApps = with pkgs.nextcloud34Packages.apps; {
           inherit calendar contacts cookbook;
         };
         hostname = "nc.bsoup.net";
